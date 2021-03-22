@@ -23,7 +23,7 @@ const Login =()=>{
       console.log("LoggedIn User");
       let existing_token = localStorage.getItem("token");
       setToken(existing_token);     
-      let login_user: any = localStorage.getItem("User") ? JSON.parse(localStorage.getItem("User") || "") : null;
+      let login_user: any = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") || "") : null;
       if(existing_token != null && existing_token != "" && existing_token != undefined)
       {
         console.log("istoken ddddd= "+existing_token);
@@ -65,9 +65,10 @@ const Login =()=>{
                           if(loginuser != null)
                           {
                             localStorage.setItem("user", JSON.stringify(loginuser));
-                            if(loginuser.UserRole == "Employee")
+                            if(loginuser.UserRole == "Employee" || loginuser.UserRole == "Firm")
                             {
                                 console.log("login with employee"); 
+                                setIsToken(true);                              
                             }
                             else if(loginuser.UserRole == "Client")
                             {
@@ -94,62 +95,6 @@ const Login =()=>{
       console.log("credentials not found");
     }
 }
-
-
-async function handleSubmit1(e: any) {
-  // const handleSubmit = async e : any=> {
-      console.log("in login");
-    e.preventDefault();    
-    // setToken(token);
-    var qs = require('qs');   
-   var grant_type= 'password';
-     var result = fetch('http://localhost:53965/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: qs.stringify({ 'grant_type': 'password',      
-        'username': user.username,
-        'password': user.password})
-      })
-      .then(response => { return response.json();})
-      .then(responseData => 
-        {
-          console.log("responseData = ",responseData);
-          if(responseData.access_token != null)
-          {
-           // let context = { ...userContext };
-            localStorage.setItem("token", "Bearer "+responseData.access_token);  
-            let userservice = new UserService();
-           userservice.GetUser().then((data) => {
-              console.log("Getting user Response", data);
-            })
-            // fetch('http://localhost:53965/api/User/UserInfo', {
-            //   method: 'GET',
-            //   headers: {
-            //     'Content-Type': 'application/json',
-            //     'authorization' : "Bearer "+responseData.access_token
-            //   }             
-            // })
-            // .then(response => { return response.json();})      
-          }
-          //return responseData;
-        })
-      
-      //  .then(function (data: any) { 
-      //    var res = data.json(); 
-      //    console.log(data);
-      //    console.log(res.access_token);
-      //    // console.log(data.user);
-      //   // let context = { ...userContext };
-      //               // context.accessToken = data.token;
-      //               // let usr: any = data.user;
-      //               // let st = JSON.stringify(usr);
-      //               // localStorage.setItem("token", data.token);
-      //               // localStorage.setItem("user", st);
-      //               // setUser(data.user);
-      //   })
-  }
 
     return( 
      !istoken ? 
