@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect, Route, Switch } from 'react-router-dom';
 import FirmHeader from "./firmheader";
+import FirmMenu from "./firmmenu"
 import Dashboard from '../pages/dashboard';
 
 const FirmLayout = () => {
@@ -8,7 +9,7 @@ const FirmLayout = () => {
         <React.Fragment>
             <FirmHeader />
             <div className="container-fluid page-body-wrapper firm_layout">
-                {/* <Menu></Menu> */}
+                <FirmMenu /> 
                 <div className="main-panel " >
                     <div className="content-wrapper bg-gradient-light">
                         <Switch>

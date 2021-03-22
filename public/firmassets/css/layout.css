@@ -6,17 +6,12 @@
     position: absolute;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 64px;
     z-index: 1005;
     background: #ffffff;
     color: rgba(49, 53, 52, 0.6);
     -webkit-box-shadow: 0 1px 3px 0 rgb(0 0 0 / 33%);
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 33%);
-}
-
- img#_logoUrl {
-    width: auto;
-    padding: 6px;
 }
 
 .headerbar {
@@ -66,47 +61,11 @@
 .headerbar-right {
     float: right;
 }
-.header-nav-profile .dropdown img {
-    width: 40px;
-    height: 40px;
-    border-radius: 40px;
-}
-.header-nav > li {
-    position: relative;
-    display: block;
-    padding: 14px 0 14px 12px;
-    float: left;
-}
 .headerbar-right .header-nav {
     display: inline-block;
     float: left;
 }
-.header-nav > li > a > img {
-    max-width: none;
-}
-.header-nav > li > a:hover, .header-nav > li > a:focus {
-    text-decoration: none;
-    background-color: rgba(12, 12, 12, 0.07);
-}
 
-.header-nav-profile .dropdown > a {
-    position: relative;
-    min-height: 64px;
-    min-width: 210px;
-    padding: 12px;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-}
-.header-nav-profile .dropdown .profile-info {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 0 20px 0 10px;
-    line-height: 15px;
-}
-.header-nav-profile .dropdown .profile-info small {
-    display: block;
-    opacity: 0.5;
-}
 
 /*menu style */
 #menubar {
@@ -119,9 +78,6 @@
     color: rgba(12, 12, 12, 0.85);
    background:#414f62
 }
-
-
-
 #menubar.menubar-inverse {
     color: rgba(255, 255, 255, 0.55);
 }
@@ -136,13 +92,6 @@
 #menubar.menubar-inverse:before {
     background: #414f62;
 }
- .gui-controls > li:not(.gui-folder) > a:hover {
-    /* background-color: #313942; */
-    background-color: #6b83a2;
-}
- .gui-controls > li:not(.gui-folder) > a:hover span.gui-icon.ng-scope {
-    color: #fff;
-}
 .nano {
     position: relative;
     width: 100%;
@@ -151,6 +100,8 @@
 }
 .nano > .nano-content {
     position: absolute;
+    overflow: scroll;
+    overflow-x: hidden;
     top: 0;
     right: 0;
     bottom: 0;
@@ -160,7 +111,7 @@
     position: relative;
     padding-top: 16px;
     z-index: 2;
-
+    min-height: 100%;
 }
 .gui-controls {
     font-size: 12px;
@@ -183,16 +134,6 @@
     min-height: 40px;
     min-width: 64px;
     z-index: 1;
-}
-.gui-icon {
-  padding: 12px;
-  color: #6b83a2;
-}
-.gui-controls li:hover {
-    color: #6b83a2;
-}
-.gui-icon .fa:first-child, .gui-icon .fa:first-child, .gui-icon .glyphicon:first-child {
-
 }
 
 .menubar-inverse .gui-controls li .title {
