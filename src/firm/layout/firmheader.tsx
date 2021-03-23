@@ -1,5 +1,4 @@
 import React from 'react';
-import '../firmassets/css/layout.css';
 import logoUrl from "../../assets/images/logo.png";
 const FirmHeader = () => {
   function logout() {
@@ -26,14 +25,12 @@ const FirmHeader = () => {
               </div>
             </li>
             <li>
-              <a
+              <span
                 className="navbar-toggler navbar-toggler-right btn btn-icon-toggle btn-default menubar-toggle"
                 id="threelines"
-                data-toggle="offcanvas"
-                href="javascript:void(0);"
               >
                 <i className="fa fa-bars"></i>
-              </a>
+              </span>
             </li>
             <li>
               <a className="btn btn-default" href="/app/settings/setupprogress">

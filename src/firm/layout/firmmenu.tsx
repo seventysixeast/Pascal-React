@@ -1,14 +1,13 @@
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch,Link } from "react-router-dom";
 
 const FirmMenu = () => {
   return (
     <React.Fragment>
-      <div className="container-fluid page-body-wrapper">
         <div
           id="menubar"
           className="menubar-inverse animate sidebar sidebar-offcanvas"
-          style={{ width: "265px" }}
+          
         >
           <div className="menubar-fixed-panel">
 
@@ -20,7 +19,7 @@ const FirmMenu = () => {
               </a>
             </div>
           </div>
-          <div className="nano" style={{ height: "150px" }}>
+          <div className="nano">
             <div className="nano-content" >
               <div
                 className="menubar-scroll-panel"
@@ -33,7 +32,7 @@ const FirmMenu = () => {
                     id="Dashboard"
                     title="Dashboard"
                   >
-                    <a href="/app/">
+                    <Link to="/dashboard">
                       <span
                         className="gui-icon ng-scope"
                   
@@ -46,7 +45,7 @@ const FirmMenu = () => {
                       >
                         Dashboard{" "}
                       </span>
-                    </a>
+                    </Link>
                   </li>
                  
 
@@ -55,17 +54,17 @@ const FirmMenu = () => {
                     id="Settings"
                     title="Settings"
                   >
-                    <a className="ng-scope" href="/app/settings/firmpreference">
+                    <Link className="ng-scope" to="/people">
                       <span className="gui-icon ng-scope">
-                        <i className="fa fa-cog"></i>
+                        <i className="fa fa-users"></i>
                       </span>
                       <span
                         className="title  ng-binding"
                         style={{ paddingLeft: 6, opacity: "1" }}
                       >
-                        Settings{" "}
+                        People{" "}
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
                 {/* end main menu */}
@@ -87,17 +86,6 @@ const FirmMenu = () => {
           </div>
           {/* end .menubar-scroll-panel*/}
         </div>
-
-        <div className="main-panel ">
-          <div className="content-wrapper bg-gradient-light">
-            <Switch>
-              <Route exact path="/">
-                <Redirect to="/dashboard" />
-              </Route>
-            </Switch>
-          </div>
-        </div>
-      </div>
     </React.Fragment>
   );
 };
