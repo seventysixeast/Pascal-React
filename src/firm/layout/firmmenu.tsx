@@ -1,24 +1,37 @@
 import React from "react";
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch,Link } from "react-router-dom";
 
-const AdminLayout = () => {
-    return (
-        <React.Fragment>
+const FirmMenu = () => {
+  return (
+    <React.Fragment>
+ <nav
+      className="border-right-lg border-secondary sidebar sidebar-offcanvas"
+      id="sidebar"
+      style={{
+        marginTop: 0,
+        marginLeft: 0,
+        border: "unset",
+      }}
+    >
+      <ul className="nav">
+        <li className="nav-item">
+          <Link className="nav-link" to="/dashboard">
+            <i className="mdi mdi-home menu-icon"></i>
+            <span className="menu-title">Dashboard</span>
             
-            <div className="container-fluid page-body-wrapper">
-                
-                <div className="main-panel " >
-                    <div className="content-wrapper bg-gradient-light">
-                        <Switch>
-                            <Route exact path="/">
-                                <Redirect to="/dashboard" />
-                            </Route>
-                          
-                        </Switch>
-                    </div>
-                </div>
-            </div>
-        </React.Fragment>
-    )
-}
-//export default AdminLayout;
+          </Link>
+        </li>
+
+        <li className="nav-item">
+          <Link className="nav-link" to="/people">
+            <i className="mdi mdi-account-multiple menu-icon"></i>
+            <span className="menu-title">People</span>
+            
+          </Link>
+        </li>
+      </ul>
+    </nav>
+    </React.Fragment>
+  );
+};
+export default FirmMenu;
