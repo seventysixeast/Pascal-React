@@ -8,16 +8,16 @@ const FirmLayout = () => {
     return (
         <React.Fragment>
             <FirmHeader />
-            <div className="container-fluid page-body-wrapper firm_layout">
-                <FirmMenu /> 
+            <div className="page-body-wrapper firm_layout">
+                <FirmMenu />
                 <div className="main-panel" >
-                    <div className="content-wrapper bg-gradient-light page-content">
+                    <div className="content-wrapper bg-gradient-light">
                         <Switch>
                             <Route exact path="/">
                                 <Redirect to="/dashboard" />
                             </Route>
                             <Route path="/dashboard" component={Dashboard} /> 
-                            <Route path="/people" component={People} />                             
+                            <Route path="/people" component={People} />   
                         </Switch>
                     </div>
                 </div>
