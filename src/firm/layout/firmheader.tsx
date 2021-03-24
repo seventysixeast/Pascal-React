@@ -135,7 +135,7 @@ const FirmHeader = () => {
                 <li className="divider"></li>
 
                 <li>
-                  <a href="/app/logout">
+                  <a href="/app/logout" onClick={()=>logout()}>
                     <i className="mdi mdi-fw mdi-power-off text-danger"></i> Logout
                   </a>
                 </li>

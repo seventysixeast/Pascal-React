@@ -74,6 +74,7 @@ const Login =()=>{
                             else if(loginuser.UserRole == "Client")
                             {
                               console.log("login with client");
+                              setIsToken(true);  
                             }
                             else{
                               console.log("role not found.");
