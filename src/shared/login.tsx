@@ -65,10 +65,11 @@ const Login =()=>{
                           if(loginuser != null)
                           {
                             localStorage.setItem("user", JSON.stringify(loginuser));
+                            setUser_role(loginuser.UserRole);  
                             if(loginuser.UserRole == "Employee" || loginuser.UserRole == "Firm")
                             {
                                 console.log("login with employee"); 
-                                setIsToken(true);                              
+                                setIsToken(true);  
                             }
                             else if(loginuser.UserRole == "Client")
                             {
