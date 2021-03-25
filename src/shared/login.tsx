@@ -8,6 +8,7 @@ import UserService from '../services/userService';
 import {Redirect, Route, useHistory} from 'react-router-dom';
 import Dashboard from '../firm/pages/dashboard';
 import ClientDashboard from '../client/pages/dashboard';
+import ClientLayout from '../client/layout/clientlayout';
 import FirmLayout from '../firm/layout/firmlayout';
 
 
@@ -141,7 +142,7 @@ const Login =()=>{
       </div>
       :
       <div>
-        <ClientDashboard></ClientDashboard>
+        <ClientLayout></ClientLayout>
       </div>
     )
 }

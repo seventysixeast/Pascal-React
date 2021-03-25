@@ -19085,7 +19085,14 @@ ul.dropdown-menu.show li a{
 }
 ul.dropdown-menu.show {
     text-align: center;
-    margin-top: 191px;
+    position: absolute !important;
+    left: 39px;
+    top: 55px;
+}
+
+.navbar-nav .dropdown-menu {
+    position: relative !important;
+    float: none !important;
 }
 
     
