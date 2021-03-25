@@ -11,7 +11,7 @@ const FirmLayout = () => {
             <div className="page-body-wrapper firm_layout">
                 <FirmMenu />
                 <div className="main-panel" >
-                    <div className="content-wrapper bg-gradient-light">
+                    <div className="bg-gradient-light">
                         <Switch>
                             <Route exact path="/">
                                 <Redirect to="/dashboard" />
