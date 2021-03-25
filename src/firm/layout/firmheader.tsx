@@ -3,11 +3,13 @@ import logoUrl from "../../assets/images/logo.png";
 import { Modal, Tabs, Tab, Button } from "react-bootstrap";
 import '../../assets/css/frimstyle.css';
 const FirmHeader = () => {
+  let user: any = localStorage.getItem("user");
+   user = JSON.parse(user);
   const [isModal, setIsModal] : any = useState(false);
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-  }
+  } 
 
   return (
     <nav className="border-bottom border-secondary navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -107,12 +109,12 @@ const FirmHeader = () => {
               >
                 <img
                   id="_profileimg"
-                  src={logoUrl}
+                  src={process.env.REACT_APP_API_URL+user.ImageUrl}
                   className="borderImgGreen"
                   title="Imap Connected."
                 />
                 <span className="profile-info">
-                  Dinesh Sharma<small>Administrator</small>
+                  {user.UserFirstName} {" "} {user.UserLastName}<small>{user.UserRole}</small>
                 </span>
               </a>
               <ul className="dropdown-menu">
