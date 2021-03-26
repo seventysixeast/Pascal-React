@@ -1,8 +1,210 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Tabs, Tab, Button } from "react-bootstrap";
+import Grid from "../../components/dataTable";
+
 const People = () => {
   const [isSettingModal, setIsSettingModal]: any = useState(false);
   const [isFilterModal, setIsFilterModal]: any = useState(false);
+  const [columns, setColumns] = useState([
+  {
+    name: "Name",
+    selector: "PersonName",
+    sortable: true
+  },
+  {
+    name: "Company",
+    selector: "CompanyName",
+    sortable: true
+  },
+  {
+    name: "TexID",
+    selector: "TaxId",
+    sortable: true
+  },
+  {
+    name: "Spouse Name",
+    selector: "SpouseName",
+    sortable: true
+  },
+  {
+    name: "TexID",
+    selector: "TexID",
+    sortable: true
+  },
+  {
+    name: "Email",
+    selector: "EmailAddress",
+    sortable: true
+  },
+  {
+    name: "Phone",
+    selector: "PhoneNumber",
+    sortable: true
+  },
+  {
+    name: "Contact Type",
+    selector: "ContactType",
+    sortable: true
+  },
+   {
+    name: "Portal Status",
+    selector: "PortalStatus",
+    sortable: true
+  },
+  {
+    name: "Created",
+    selector: "AddedOnFormatted",
+    sortable: true
+  },
+  {
+    name: "Modified",
+    selector: "ContactType",
+    sortable: true
+  },
+  {
+    name: "City",
+    selector: "City",
+    sortable: true
+  },
+  {
+    name: "State",
+    selector: "State",
+    sortable: true
+  },
+  {
+    name: "Country",
+    selector: "Country",
+    sortable: true
+  },
+  {
+    name: "Zipcode",
+    selector: "Zip",
+    sortable: true
+  },
+  {
+    name: "Referred By",
+    selector: "ReferredBy",
+    sortable: true
+  },
+  {
+    name: "Country",
+    selector: "Country",
+    sortable: true
+  },
+  {
+    name: "Zipcode",
+    selector: "Zip",
+    sortable: true
+  },
+  {
+    name: "Referred By",
+    selector: "ReferredBy",
+    sortable: true
+  },
+  {
+    name: "First",
+    selector: "CustomValue1",
+    sortable: true
+  },
+  {
+    name: "Second",
+    selector: "CustomValue2",
+    sortable: true
+  },
+  {
+    name: "Third",
+    selector: "CustomValue3",
+    sortable: true
+  },
+  {
+    name: "Fourth",
+    selector: "CustomValue4",
+    sortable: true
+  }
+] as any[]);
+
+const [rows, setRows] = useState([{"PeopleId":15291,
+"Initials":"YH",
+"Color":"#7DA61D",
+"CompanyName":null,
+"PersonName":"yg huh",
+"FirstName":"yg","LastName":"huh",
+"CompaniesArr":null,
+"EmailArr":null,
+"PhoneArr":null,
+"EmailAddress":null,
+"PhoneNumber":null,
+"ContactType":"Client",
+"Title":null,"ImageUrl":"",
+"FacebookUrl":null,
+"TwitterUrl":null,
+"KloutUrl":null,
+"LinkedInUrl":null,
+"GooglePlusUrl":null,
+"GravatarUrl":null,
+"Gravatarphoto":null,
+"FacebookPhoto":null,
+"TwitterPhoto":null,
+"Googleplusphoto":null,
+"Linkedinphoto":null,
+"Kloutphoto":null,
+"Description":null,
+"City":"CHANDIGARH",
+"Street":null,
+"State":"Chandigarh",
+"Zipcode":"160047",
+"Country":null,
+"ContactTypeId":null,
+"ReferredBy":null,
+"PersonReferred":null,
+"ReferredSource":"",
+"ReferredSourceCount":1,
+"DOB":"",
+"DateOfBirth":null,
+"SpouseName":"ghghj hgjhgj",
+"SpouseFirstName":"ghghj",
+"SpouseLastName":"hgjhgj",
+"SpouseEmail":null,
+"AddedOn":"\/Date(1590764409000)\/",
+"LastModifiedBy":"Renu Thakur  rajpooooooooooot",
+"LastModifiedOn":"\/Date(1616521904000)\/",
+"CreatedBy":"testeast74@gmail.com",
+"PortalAccess":"Enable",
+"IsRegistered":false,
+"RegisteredOnFormatted":null,
+"TaxId":null,
+"VerificationCode":null,
+"LastModifiedOnFormatted":"2021/03/23",
+"AddedOnFormatted":"2020/05/29",
+"Isfollowing":false,
+"followingEmployees":"0",
+"SpouseDOB":null,
+"SpouseTaxId":null,
+"InviteCount":null,
+"PortalStatus":"No Email Address",
+"ProfileId":null,
+"CompanyId":null,
+"OtherEmails":null,
+"OtherCompanies":null,
+"SelectedLabelname":null,
+"selectedlabel":null,
+"SelectedLabelsList":null,
+"CSVPeopleId":null,
+"IntuitCustomerId":null,
+"CustomValue1":null,
+"CustomValue2":null,
+"CustomValue3":null,
+"CustomValue4":null,
+"CustomValue5":null,
+"CustomValue6":null,
+"CustomValue7":null,
+"CustomValue8":null,
+"CustomValue9":null,
+"CustomValue10":null,
+"OtherEmailArr":null
+}] as any[]);
+
+
   return (
     <>
       <div className="row align-items-center page-bar" id="proBanner">
@@ -102,6 +304,13 @@ const People = () => {
         {isSettingModal ? renderSettingModal() : null}
         {isFilterModal ? renderFilterModal() : null}
       </div>
+        <div className="col-md-12 datatbale-row">
+          <Grid
+            columns={columns}
+            rows={rows}
+            title="People"
+          />
+        </div>
     </>
   );
 

@@ -18,11 +18,14 @@ code {
 }
 body {
   /* background: #1C8EF9 !important; */
-  background: #e5e6e6 !important;
   min-height: 100vh;
   display: flex;
   font-weight: 400;
   font-family: "Roboto", sans-serif, Helvetica, Arial, sans-serif;
+}
+
+.bg-gradient-light{
+  background: #fff !important
 }
 
 h1,h2,h3,h4,h5,h6,label,span {
