@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import FirmHeader from "./firmheader";
 import FirmMenu from "./firmmenu"
 import Dashboard from '../pages/dashboard';
-import People from '../pages/peoplegrid';
+import People from '../pages/people/people';
 const FirmLayout = () => {
     return (
         <React.Fragment>

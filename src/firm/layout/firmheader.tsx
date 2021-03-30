@@ -2,6 +2,8 @@ import React,{ useEffect, useState }  from "react";
 import logoUrl from "../../assets/images/logo.png";
 import { Modal, Tabs, Tab, Button } from "react-bootstrap";
 import '../../assets/css/frimstyle.css';
+import SlidingPane from "react-sliding-pane";
+import "react-sliding-pane/dist/react-sliding-pane.css";
 const FirmHeader = () => {
   let user: any = localStorage.getItem("user");
    user = JSON.parse(user);
@@ -164,30 +166,27 @@ const FirmHeader = () => {
 
 function renderModal(){
   return(
-      <Modal
-        backdrop="static"
-        show={isModal}
-        onHide={() => setIsModal(false)}
-        className="modal right fade fadeInRight"
+      <SlidingPane
+        closeIcon={<div><i className="mdi mdi-close"></i></div>}
+        isOpen={isModal}
+        title="Add New"
+        from="right"
+        width="300px"
+        onRequestClose={() => setIsModal(false)}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Add New</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="bg-white">
-            <ul className="list">
-                <li className="tile listpadding"><a href="" >Person</a></li>
-                <li className="tile listpadding"><a href="">Company</a></li>
-                <hr/>
-                <li className="tile listpadding"><a href="javascript:void(0);">Proposal &nbsp;&nbsp;<sup className="style-warning badge ng-hide">Premium</sup></a></li>
-                <li className="tile listpadding"><a href="javascript:void(0);">Project</a></li>
-                <li className="tile listpadding"><a href="javascript:void(0);">Request &nbsp;&nbsp;<sup className="style-warning badge ng-hide">Premium</sup></a> </li>
-                <li className="tile listpadding"><a href="javascript:void(0);">Organizer </a></li>
-                <hr/>
-                <li className="tile listpadding"><a href="javascript:void(0);">Document </a></li>
-                <li className="tile listpadding"><a href="javascript:void(0);">E-signed Return &nbsp;&nbsp;<sup className="style-warning badge ng-hide">Premium</sup></a></li>
-            </ul>
-        </Modal.Body>
-      </Modal>
+        <ul className="list">
+            <li className="tile listpadding"><a href="" >Person</a></li>
+            <li className="tile listpadding"><a href="">Company</a></li>
+            <hr/>
+            <li className="tile listpadding"><a href="javascript:void(0);">Proposal &nbsp;&nbsp;<sup className="style-warning badge ng-hide">Premium</sup></a></li>
+            <li className="tile listpadding"><a href="javascript:void(0);">Project</a></li>
+            <li className="tile listpadding"><a href="javascript:void(0);">Request &nbsp;&nbsp;<sup className="style-warning badge ng-hide">Premium</sup></a> </li>
+            <li className="tile listpadding"><a href="javascript:void(0);">Organizer </a></li>
+            <hr/>
+            <li className="tile listpadding"><a href="javascript:void(0);">Document </a></li>
+            <li className="tile listpadding"><a href="javascript:void(0);">E-signed Return &nbsp;&nbsp;<sup className="style-warning badge ng-hide">Premium</sup></a></li>
+        </ul>
+      </SlidingPane>
   )
 }
 
