@@ -32,7 +32,7 @@
     "react:start": "react-scripts start",
     "local": "env-cmd -f .env.development npm run-script start-js",
     "production": "env-cmd -f .env.production npm run-script build",
-    "staging": "REACT_APP_ENV=staging npm run build"
+    "staging": "env-cmd -f .env.staging npm run-script build"
   },
   "eslintConfig": {
     "extends": [

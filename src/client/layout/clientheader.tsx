@@ -1,8 +1,9 @@
 import React from "react";
 import logoUrl from "../../assets/images/logo.png";
 const ClientHeader = () => {
-  let user: any = localStorage.getItem("user");
-  user = JSON.parse(user);
+  let clientuser: any = localStorage.getItem("user");
+  let user = JSON.parse(clientuser);
+
 function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");

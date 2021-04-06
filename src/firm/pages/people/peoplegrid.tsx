@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } 
+from "react";
 import { Modal, Form, Tabs, Tab, Button } from "react-bootstrap";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import Grid from "../../../components/dataTable";
+import PeopleService from '../../../services/peopleService';
+import { IPeople } from '../../../contracts/IPeople';
+import { couldStartTrivia } from "typescript";
+import { log } from "node:util";
 
 const PeopleGrid = () => {
   const [columns, setColumns] = useState([
@@ -91,22 +96,7 @@ const PeopleGrid = () => {
       name: "Referred By",
       selector: "ReferredBy",
       sortable: true,
-    },
-    {
-      name: "Country",
-      selector: "Country",
-      sortable: true,
-    },
-    {
-      name: "Zipcode",
-      selector: "Zip",
-      sortable: true,
-    },
-    {
-      name: "Referred By",
-      selector: "ReferredBy",
-      sortable: true,
-    },
+    },    
     {
       name: "First",
       selector: "CustomValue1",
@@ -129,12 +119,27 @@ const PeopleGrid = () => {
     },
   ] as any);
 
+  const [peoples, setPeoples] = useState([]);
   const [rows, setRows] = useState([] as any[]);
   const [isPersonDetailModal, setIsPersonDetailModal] = useState(false);
   const [activePersonInfoKey, setActivePersonInfoKey] = useState("detail");
   const [isPeopleSettings, setIsPeopleSettings]: any = useState(false);
-  useEffect(() => {
-    getPeople();
+
+  //let [filterdata, setFilterdata] : any = useState({FirmCompanyId : '', EmployeeId : ''});
+
+  useEffect(() => {   
+    let loginuser: any = localStorage.getItem("user");
+    let user = JSON.parse(loginuser); 
+  if(user.FirmId > 0 && user.EmployeeId > 0)
+    {  
+      console.log("logged in firmid = "+user.FirmId);
+      console.log("logged in employeeid = "+ user.EmployeeId);
+      getPeople(user);
+    }
+  else
+    {
+      console.log("no filter found");
+    }
   }, []);
 
   function onPersonInfoChange(key: any) {
@@ -174,108 +179,36 @@ const PeopleGrid = () => {
     );
   }
 
-  function getPeople() {
-    const peoples: any = [
-      {
-        PeopleId: 15291,
-        Initials: "YH",
-        Color: "#7DA61D",
-        CompanyName: null,
-        PersonName: "yg huh",
-        FirstName: "yg",
-        LastName: "huh",
-        CompaniesArr: null,
-        EmailArr: null,
-        PhoneArr: null,
-        EmailAddress: null,
-        PhoneNumber: null,
-        ContactType: "Client",
-        Title: null,
-        ImageUrl: "",
-        FacebookUrl: null,
-        TwitterUrl: null,
-        KloutUrl: null,
-        LinkedInUrl: null,
-        GooglePlusUrl: null,
-        GravatarUrl: null,
-        Gravatarphoto: null,
-        FacebookPhoto: null,
-        TwitterPhoto: null,
-        Googleplusphoto: null,
-        Linkedinphoto: null,
-        Kloutphoto: null,
-        Description: null,
-        City: "CHANDIGARH",
-        Street: null,
-        State: "Chandigarh",
-        Zipcode: "160047",
-        Country: null,
-        ContactTypeId: null,
-        ReferredBy: null,
-        PersonReferred: null,
-        ReferredSource: "",
-        ReferredSourceCount: 1,
-        DOB: "",
-        DateOfBirth: null,
-        SpouseName: "ghghj hgjhgj",
-        SpouseFirstName: "ghghj",
-        SpouseLastName: "hgjhgj",
-        SpouseEmail: null,
-        AddedOn: "/Date(1590764409000)/",
-        LastModifiedBy: "Renu Thakur  rajpooooooooooot",
-        LastModifiedOn: "/Date(1616521904000)/",
-        CreatedBy: "testeast74@gmail.com",
-        PortalAccess: "Enable",
-        IsRegistered: false,
-        RegisteredOnFormatted: null,
-        TaxId: null,
-        VerificationCode: null,
-        LastModifiedOnFormatted: "2021/03/23",
-        AddedOnFormatted: "2020/05/29",
-        Isfollowing: false,
-        followingEmployees: "0",
-        SpouseDOB: null,
-        SpouseTaxId: null,
-        InviteCount: null,
-        PortalStatus: "No Email Address",
-        ProfileId: null,
-        CompanyId: null,
-        OtherEmails: null,
-        OtherCompanies: null,
-        SelectedLabelname: null,
-        selectedlabel: null,
-        SelectedLabelsList: null,
-        CSVPeopleId: null,
-        IntuitCustomerId: null,
-        CustomValue1: null,
-        CustomValue2: null,
-        CustomValue3: null,
-        CustomValue4: null,
-        CustomValue5: null,
-        CustomValue6: null,
-        CustomValue7: null,
-        CustomValue8: null,
-        CustomValue9: null,
-        CustomValue10: null,
-        OtherEmailArr: null,
-      },
-    ];
-    peoples.forEach(function (row: any, index: number) {
-      row["PersonName"] = (
-        <a
-          href="javascript:vaoid(0)"
-          onClick={() => setIsPersonDetailModal(true)}
-        >
-          {row.PersonName}
-        </a>
-      );
-      row["settings"] = (
-        <a href="javascript:void(0)" onClick={() => setIsPeopleSettings(true)}>
-          <i className="mdi mdi-settings"></i>
-        </a>
-      );
-    });
-    setRows(peoples);
+  const getPeople= async(filter_data : any)=> {   
+    let service = new PeopleService();   
+    console.log("filter_data = ",filter_data);   
+    await service.GetAllPeople(filter_data).then((data) => { 
+      console.log("get people Response", data);  
+    if( data.PeopleList != null &&  data.PeopleList != undefined &&  data.PeopleList.length > 0)
+    {
+      data.PeopleList.forEach(function (row: any, index: number) {
+          row["PersonName"] = (
+            <a
+              href="javascript:void(0)"
+              onClick={() => setIsPersonDetailModal(true)}
+            > 
+              {row.PersonName}
+            </a>
+          );
+          row["settings"] = (
+            <a href="javascript:void(0)" onClick={() => setIsPeopleSettings(true)}>
+              <i className="mdi mdi-settings"></i>
+            </a>
+          );
+        });
+        setRows(data.PeopleList); 
+    }
+      else{
+        console.log("not able to get records");
+      }
+
+ // },2000);
+  }); 
   }
   return (
     <>

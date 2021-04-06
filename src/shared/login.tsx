@@ -36,8 +36,7 @@ const Login =()=>{
         console.log("loggedinuser =",login_user);
       }
       console.log("istoken= "+token);
-  }, [])
-      
+  }, [])     
     
 
     const detailChange = (name: string, value: string)=>{

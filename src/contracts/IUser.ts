@@ -8,5 +8,10 @@ export interface IUser {
     role: string,
     logo: string,
     firmcompanyId: number,
+    employeeId: number,
     grant_type:string,
+    firmName: string,
+    displayFormat: string,
+    employeeName : string,
+    nameFormat : string,  
 }
