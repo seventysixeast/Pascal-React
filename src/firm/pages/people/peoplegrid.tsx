@@ -6,120 +6,9 @@ import "react-sliding-pane/dist/react-sliding-pane.css";
 import Grid from "../../../components/dataTable";
 import PeopleService from '../../../services/peopleService';
 import { IPeople } from '../../../contracts/IPeople';
-import { couldStartTrivia } from "typescript";
-import { log } from "node:util";
 
-const PeopleGrid = () => {
-  const [columns, setColumns] = useState([
-    {
-      name: "",
-      selector: "settings",
-      sortable: true,
-      width: 50,
-    },
-    {
-      name: "Name",
-      selector: "PersonName",
-      sortable: true,
-    },
-    {
-      name: "Company",
-      selector: "CompanyName",
-      sortable: true,
-    },
-    {
-      name: "TexID",
-      selector: "TaxId",
-      sortable: true,
-    },
-    {
-      name: "Spouse Name",
-      selector: "SpouseName",
-      sortable: true,
-    },
-    {
-      name: "TexID",
-      selector: "TexID",
-      sortable: true,
-    },
-    {
-      name: "Email",
-      selector: "EmailAddress",
-      sortable: true,
-    },
-    {
-      name: "Phone",
-      selector: "PhoneNumber",
-      sortable: true,
-    },
-    {
-      name: "Contact Type",
-      selector: "ContactType",
-      sortable: true,
-    },
-    {
-      name: "Portal Status",
-      selector: "PortalStatus",
-      sortable: true,
-    },
-    {
-      name: "Created",
-      selector: "AddedOnFormatted",
-      sortable: true,
-    },
-    {
-      name: "Modified",
-      selector: "ContactType",
-      sortable: true,
-    },
-    {
-      name: "City",
-      selector: "City",
-      sortable: true,
-    },
-    {
-      name: "State",
-      selector: "State",
-      sortable: true,
-    },
-    {
-      name: "Country",
-      selector: "Country",
-      sortable: true,
-    },
-    {
-      name: "Zipcode",
-      selector: "Zip",
-      sortable: true,
-    },
-    {
-      name: "Referred By",
-      selector: "ReferredBy",
-      sortable: true,
-    },    
-    {
-      name: "First",
-      selector: "CustomValue1",
-      sortable: true,
-    },
-    {
-      name: "Second",
-      selector: "CustomValue2",
-      sortable: true,
-    },
-    {
-      name: "Third",
-      selector: "CustomValue3",
-      sortable: true,
-    },
-    {
-      name: "Fourth",
-      selector: "CustomValue4",
-      sortable: true,
-    },
-  ] as any);
-
-  const [peoples, setPeoples] = useState([]);
+const PeopleGrid = () => {    
+  const [columns, setColumns] = useState([] as any[]);
   const [rows, setRows] = useState([] as any[]);
   const [isPersonDetailModal, setIsPersonDetailModal] = useState(false);
   const [activePersonInfoKey, setActivePersonInfoKey] = useState("detail");
@@ -183,16 +72,36 @@ const PeopleGrid = () => {
     let service = new PeopleService();   
     console.log("filter_data = ",filter_data);   
     await service.GetAllPeople(filter_data).then((data) => { 
-      console.log("get people Response", data);  
+      console.log("get people Response", data); 
+      var columnarr : any=[];
+      if(data.CustomColumns != null && data.CustomColumns != "" && data.CustomColumns != "undefined")
+      {
+        columnarr = data.CustomColumns.split(",");
+        console.log(columnarr);
+        var colarr : any = [];
+        colarr.push({
+            name: "",
+            selector: "settings",
+            sortable: true,
+            width: 50,
+          });
+        columnarr.forEach(function(column : any, index : number){
+         // if(column == "")
+          colarr.push({name : column, selector : column , sortable : true});          
+        });
+        setColumns(colarr);
+      }      
+      console.log("final columns" ,columns);
     if( data.PeopleList != null &&  data.PeopleList != undefined &&  data.PeopleList.length > 0)
     {
+      
       data.PeopleList.forEach(function (row: any, index: number) {
-          row["PersonName"] = (
+          row["Name"] = (
             <a
               href="javascript:void(0)"
               onClick={() => setIsPersonDetailModal(true)}
             > 
-              {row.PersonName}
+              {row.Name}
             </a>
           );
           row["settings"] = (
@@ -200,7 +109,11 @@ const PeopleGrid = () => {
               <i className="mdi mdi-settings"></i>
             </a>
           );
+          row["Portal Status"] = (<span> {row.PortalStatus} </span>);
+          row["Spouse Name"] = (<span> {row.SpouseName} </span>);
+          row["Contact Type"] = (<span> {row.ContactType} </span>);
         });
+        console.log("list is =",rows);
         setRows(data.PeopleList); 
     }
       else{

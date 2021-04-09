@@ -9,7 +9,7 @@ const Grid = ({ columns,rows,title}: any) => {
       data={rows}            
       highlightOnHover={true}
       selectableRows={false}
-      pagination={true}
+      pagination={true}     
     />
   )
 }
