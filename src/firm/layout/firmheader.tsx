@@ -1,7 +1,7 @@
 import React,{ useEffect, useState }  from "react";
 import logoUrl from "../../assets/images/logo.png";
 import { Modal, Tabs, Tab, Button } from "react-bootstrap";
-import '../../assets/css/frimstyle.css';
+import '../../assets/css/firmstyle.css';
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 const FirmHeader = () => {

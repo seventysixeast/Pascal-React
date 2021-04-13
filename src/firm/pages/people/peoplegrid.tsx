@@ -7,7 +7,7 @@ import Grid from "../../../components/dataTable";
 import PeopleService from '../../../services/peopleService';
 import { IPeople } from '../../../contracts/IPeople';
 
-const PeopleGrid = () => {    
+const PeopleGrid = ({parentCallback} : any) => {    
   const [columns, setColumns] = useState([] as any[]);
   const [rows, setRows] = useState([] as any[]);
   const [isPersonDetailModal, setIsPersonDetailModal] = useState(false);
@@ -73,7 +73,10 @@ const PeopleGrid = () => {
     console.log("filter_data = ",filter_data);   
     await service.GetAllPeople(filter_data).then((data) => { 
       console.log("get people Response", data); 
-      var columnarr : any=[];
+      var columnarr : any=[]; 
+     // parentCallback(data.Listcount);     
+       
+      //setTotalCount(data.Listcount);
       if(data.CustomColumns != null && data.CustomColumns != "" && data.CustomColumns != "undefined")
       {
         columnarr = data.CustomColumns.split(",");
@@ -93,8 +96,7 @@ const PeopleGrid = () => {
       }      
       console.log("final columns" ,columns);
     if( data.PeopleList != null &&  data.PeopleList != undefined &&  data.PeopleList.length > 0)
-    {
-      
+    {      
       data.PeopleList.forEach(function (row: any, index: number) {
           row["Name"] = (
             <a
@@ -126,7 +128,7 @@ const PeopleGrid = () => {
   return (
     <>
       <div className="col-md-12 datatbale-row">
-        <Grid columns={columns} rows={rows} title="People" />
+        <Grid columns={columns} rows={rows} title="People"/>
       </div>
       {isPeopleSettings ? renderSettingModal() : null}
       {isPersonDetailModal ? personDetailModal() : null}

@@ -1,12 +1,23 @@
+import { AnyAaaaRecord } from "node:dns";
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Tabs, Tab, Button } from "react-bootstrap";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
-import Grid from "./peoplegrid";
+import PeopleGrid from "./peoplegrid";
+import "../../../assets/css/firmstyle.css";
+import CreatePerson from "./createperson";
 
 const People = () => {
   const [isSettingModal, setIsSettingModal]: any = useState(false);
   const [isFilterModal, setIsFilterModal]: any = useState(false);
+  const [isCreateModal, setIsCreateModal]: any = useState(false);
+  const [totalcount, setTotalCount] : any = useState(0);
+
+
+ const callback = ({totalcount} : any) => {
+  setTotalCount(totalcount);
+}
+
   return (
     <>
       <div className="row align-items-center page-bar" id="proBanner">
@@ -26,7 +37,11 @@ const People = () => {
                 role="menu"
               >
                 <li>
-                  <a href="">Add Person</a>
+                <a
+              className="btn btn-icon-toggle btn-default"
+              href="javascript:void(0)"
+              onClick={() => setIsCreateModal(true)}
+            >Add Person</a>
                 </li>
                 <li className="divider"></li>
                 <li>
@@ -59,7 +74,7 @@ const People = () => {
                 type="button"
                 aria-expanded="false"
               >
-                All People (){" "}
+                All People ({totalcount})
                 <i className="mdi mdi-caret-down text-default-light"></i>
               </button>
               <ul className="dropdown-menu animation-expand">
@@ -102,10 +117,12 @@ const People = () => {
         </div>
         {isSettingModal ? renderSettingTopModal() : null}
         {isFilterModal ? renderFilterModal() : null}
+        {isCreateModal ? renderCreateModal() : null}
       </div>
-      <Grid />
+      <PeopleGrid parentCallback={() => callback}/>
     </>
   );
+
   function renderSettingTopModal() {
     return (
       <SlidingPane
@@ -117,7 +134,7 @@ const People = () => {
         isOpen={isSettingModal}
         title="Customize Columns"
         from="right"
-        width="400px"
+        width="380px"
         onRequestClose={() => setIsSettingModal(false)}
       >
         <button className="btn ink-reaction btn-primary" type="button">
@@ -129,22 +146,57 @@ const People = () => {
   function renderFilterModal() {
     return (
       <SlidingPane
+      overlayClassName="slider_padding"
         closeIcon={
           <div>
             <i className="mdi mdi-close"></i>
           </div>
         }
         isOpen={isFilterModal}
-        title="Filter List"
+        title="Filter"
         from="right"
-        width="400px"
-        onRequestClose={() => setIsFilterModal(false)}
+        width="380px"
+        onRequestClose={() => setIsFilterModal(false)}        
       >
-        <button className="btn ink-reaction btn-primary" type="button">
-          filter
-        </button>
+        <button className="btn ink-reaction btn-primary btn-primary-width" type="button">
+          Filter List
+        </button>       
+
+        <div className="btn-group check-dropdown btn-primary-width" id="contacttype_filter">
+                            <button className="btn btn-toggle btn-default btn-block" data-toggle="dropdown">Contact type </button>
+                            <ul role="menu" className="list dropdown-menu animation-dock" data-sortable="true">
+                                <li className="tile">
+                                    <div className="checkbox checkbox-styled tile-text">
+                                        {/* <label>
+                                            <input type="checkbox" value="{{types.Text}}" ng-model="types.Selected" ng-change="ModifyFilter()">
+                                            {/* <span>{{types.Text}}</span>
+                                        </label> */}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>      
       </SlidingPane>
     );
+  }
+  function renderCreateModal(){
+    return (
+      <SlidingPane
+      overlayClassName="slider_padding"
+        closeIcon={
+          <div>
+            <i className="mdi mdi-close"></i>
+          </div>
+        }
+        isOpen={isCreateModal}
+        title="Add a New Person"
+        from="bottom"
+        width="100%"
+        onRequestClose={() => setIsCreateModal(false)}        
+      >
+        <CreatePerson></CreatePerson>
+
+        </SlidingPane>
+    )
   }
 };
 export default People;
