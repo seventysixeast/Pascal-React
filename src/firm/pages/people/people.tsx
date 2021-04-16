@@ -1,23 +1,44 @@
 import { AnyAaaaRecord } from "node:dns";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef }  from "react";
 import { Modal, Form, Tabs, Tab, Button } from "react-bootstrap";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import PeopleGrid from "./peoplegrid";
 import "../../../assets/css/firmstyle.css";
 import CreatePerson from "./createperson";
+import FirmService from '../../../services/firmService';
 
 const People = () => {
   const [isSettingModal, setIsSettingModal]: any = useState(false);
   const [isFilterModal, setIsFilterModal]: any = useState(false);
   const [isCreateModal, setIsCreateModal]: any = useState(false);
-  const [totalcount, setTotalCount] : any = useState(0);
-
+  const [totalcount, setTotalCount] : any = useState(0); 
+   const [dropdownList, setDropdownList] : any = useState(); 
 
  const callback = ({totalcount} : any) => {
   setTotalCount(totalcount);
 }
 
+useEffect(() => {   
+  let loginuser: any = localStorage.getItem("user");
+  let user = JSON.parse(loginuser); 
+  if(user.FirmId > 0 && user.EmployeeId > 0 && (dropdownList ==null || dropdownList == "undefined"))
+    {  
+      getdropdowns(user.FirmId);
+    }
+  });
+
+const getdropdowns =(firmid : any)=>
+{
+  let firmservice = new FirmService();  
+  firmservice.GetDropdownDataForPerson(firmid).then((data) => {
+    console.log("getting drop down data");   
+    if(data != null)
+    {    
+      setDropdownList({labelList: data.firmlabels, contacttypeList : data.allcontacttypes, companiesList: data.companies });
+    }
+  })
+}
   return (
     <>
       <div className="row align-items-center page-bar" id="proBanner">
@@ -193,7 +214,7 @@ const People = () => {
         width="100%"
         onRequestClose={() => setIsCreateModal(false)}        
       >
-        <CreatePerson></CreatePerson>
+        <CreatePerson data={dropdownList}></CreatePerson>
 
         </SlidingPane>
     )

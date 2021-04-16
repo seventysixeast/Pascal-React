@@ -5,6 +5,7 @@ import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import Grid from "../../../components/dataTable";
 import PeopleService from '../../../services/peopleService';
+import FirmService from '../../../services/firmService';
 import { IPeople } from '../../../contracts/IPeople';
 
 const PeopleGrid = ({parentCallback} : any) => {    
@@ -23,7 +24,7 @@ const PeopleGrid = ({parentCallback} : any) => {
     {  
       console.log("logged in firmid = "+user.FirmId);
       console.log("logged in employeeid = "+ user.EmployeeId);
-      getPeople(user);
+      getPeople(user);      
     }
   else
     {
@@ -125,6 +126,7 @@ const PeopleGrid = ({parentCallback} : any) => {
  // },2000);
   }); 
   }
+
   return (
     <>
       <div className="col-md-12 datatbale-row">
