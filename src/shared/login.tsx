@@ -5,9 +5,6 @@ import AuthService from '../services/authService';
 import { toast } from 'react-toastify';
 import logourl from "../assets/images/logo.png";
 import UserService from '../services/userService';
-import {Redirect, Route, useHistory} from 'react-router-dom';
-import Dashboard from '../firm/pages/dashboard';
-import ClientDashboard from '../client/pages/dashboard';
 import ClientLayout from '../client/layout/clientlayout';
 import FirmLayout from '../firm/layout/firmlayout';
 
@@ -25,12 +22,12 @@ const Login =()=>{
       let existing_token = localStorage.getItem("token");
       setToken(existing_token);     
       let login_user: any = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") || "") : null;
-      if(existing_token != null && existing_token != "" && existing_token != undefined)
+      if(existing_token !== null && existing_token !== "" && existing_token !== undefined)
       {
         console.log("istoken ddddd= "+existing_token);
         setIsToken(true);
       }
-      if(login_user != null && login_user != undefined)
+      if(login_user !== null && login_user !== undefined)
       {
         setUser_role(login_user.UserRole);
         console.log("loggedinuser =",login_user);
@@ -48,30 +45,30 @@ const Login =()=>{
  const handleSubmit = async(e: any)=>{
   e.preventDefault();    
     console.log("token is null");
-    if (user.username != null && user.password != null && user.username != "" && user.password != "") {
+    if (user.username !== null && user.password !== null && user.username !== "" && user.password !== "") {
         let service = new AuthService();
         await service.login(user).then((data) => {
             console.log("Login Response", data);        
-                if (data.access_token != null) { 
+                if (data.access_token !== null) { 
                       localStorage.setItem("token", "Bearer "+data.access_token);  
                       let expiryDate: string = (Date.now() + ((Number.parseInt(data.expires_in)) * (1000))).toString();
                       localStorage.setItem('AuthTokenExpiration', expiryDate);
                       let userservice = new UserService();
                       userservice.GetUser().then((userdata) => {
                         console.log("Getting user Response", userdata);    
-                        if(userdata != null)
+                        if(userdata !== null)
                         {
                           var loginuser = userdata[0];
-                          if(loginuser != null)
+                          if(loginuser !== null)
                           {
                             localStorage.setItem("user", JSON.stringify(loginuser));
                             setUser_role(loginuser.UserRole);  
-                            if(loginuser.UserRole == "Employee" || loginuser.UserRole == "Firm")
+                            if(loginuser.UserRole === "Employee" || loginuser.UserRole === "Firm")
                             {
                                 console.log("login with employee"); 
                                 setIsToken(true);  
                             }
-                            else if(loginuser.UserRole == "Client")
+                            else if(loginuser.UserRole === "Client")
                             {
                               console.log("login with client");
                               setIsToken(true);  
@@ -135,7 +132,7 @@ const Login =()=>{
       </div>
       </div>
       :
-      user_role == "Employee" || user_role == "Firm" ? 
+      user_role === "Employee" || user_role === "Firm" ? 
       <div>
         <FirmLayout></FirmLayout>
       </div>

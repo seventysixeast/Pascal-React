@@ -1,12 +1,10 @@
 import React, { useEffect, useState } 
 from "react";
-import { Modal, Form, Tabs, Tab, Button } from "react-bootstrap";
+import { Modal, Form, Tabs, Tab} from "react-bootstrap";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import Grid from "../../../components/dataTable";
 import PeopleService from '../../../services/peopleService';
-import FirmService from '../../../services/firmService';
-import { IPeople } from '../../../contracts/IPeople';
 
 const PeopleGrid = ({parentCallback} : any) => {    
   const [columns, setColumns] = useState([] as any[]);
@@ -78,7 +76,7 @@ const PeopleGrid = ({parentCallback} : any) => {
      // parentCallback(data.Listcount);     
        
       //setTotalCount(data.Listcount);
-      if(data.CustomColumns != null && data.CustomColumns != "" && data.CustomColumns != "undefined")
+      if(data.CustomColumns !== null && data.CustomColumns !== "" && data.CustomColumns !== "undefined")
       {
         columnarr = data.CustomColumns.split(",");
         console.log(columnarr);
@@ -96,7 +94,7 @@ const PeopleGrid = ({parentCallback} : any) => {
         setColumns(colarr);
       }      
       console.log("final columns" ,columns);
-    if( data.PeopleList != null &&  data.PeopleList != undefined &&  data.PeopleList.length > 0)
+    if( data.PeopleList !== null &&  data.PeopleList !== undefined &&  data.PeopleList.length > 0)
     {      
       data.PeopleList.forEach(function (row: any, index: number) {
           row["Name"] = (

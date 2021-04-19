@@ -92,11 +92,11 @@ const FirmHeader = () => {
                 <a
                   href="javascript:void(0)"
                   onClick={()=>setIsModal(true)}
-                  className="btn btn-primary btn-raised"
+                  className="btn btn-primary btn-raised header-plus-btn"
                   data-toggle="offcanvas"
                   aria-expanded="true"
                 >
-                  <i className="mdi mdi-plus" aria-hidden="true"></i> new
+                  <i className="mdi mdi-plus" aria-hidden="true"></i> NEW
                 </a>
               </div>
             </li>
@@ -116,33 +116,33 @@ const FirmHeader = () => {
                   title="Imap Connected."
                 />
                 <span className="profile-info">
-                  {user.UserFirstName} {" "} {user.UserLastName}<small>{user.UserRole}</small>
+                  {user.UserFirstName} {" "} {user.UserLastName}<small className="font-13">{user.UserRole}</small>
                 </span>
               </a>
               <ul className="dropdown-menu">
-                <li>
+                <li className="dropdown-menu-list">
                   <a href="/app/settings/profile">My profile</a>
                 </li>
-                <li>
+                <li className="dropdown-menu-list">
                   <a href="/app/settings/sociallogins">Social Login</a>
                 </li>
-                <li>
+                <li className="dropdown-menu-list">
                   <a href="/app/settings/imapsettings">Imap Settings</a>
                 </li>
-                <li>
+                <li className="dropdown-menu-list">
                   <a href="/app/settings/notificationsettings">
                     Email Settings
                   </a>
                 </li>
-                <li className="divider"></li>
+                <li className="divider dropdown-menu-list"></li>
 
-                <li>
+                <li className="dropdown-menu-list">
                   <a href="/app/projects?user=me">My Projects</a>
                 </li>
 
-                <li className="divider"></li>
+                <li className="divider dropdown-menu-list"></li>
 
-                <li>
+                <li className="dropdown-menu-list">
                   <a href="/" onClick={()=>logout()}>
                     <i className="mdi mdi-fw mdi-power-off text-danger"></i> Logout
                   </a>

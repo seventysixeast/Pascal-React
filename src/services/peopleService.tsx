@@ -1,5 +1,4 @@
 import BaseService from './baseService';
-import { IPeople } from '../contracts/IPeople';
 
 class PeopleService extends BaseService {   
     async GetAllPeople(data : any)
