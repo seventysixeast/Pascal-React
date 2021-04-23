@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@khanacademy/react-multi-select": "^0.3.3",
     "@progress/kendo-react-dropdowns": "^4.5.0",
     "@progress/kendo-scheduler-react-wrapper": "^2019.4.1014",
     "@testing-library/jest-dom": "^5.11.9",
@@ -20,6 +21,7 @@
     "react-data-table-component": "^6.11.7",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
+    "react-multi-select-component": "^4.0.1",
     "react-router-dom": "^5.2.0",
     "react-select": "^4.3.0",
     "react-sliding-pane": "^7.0.0",

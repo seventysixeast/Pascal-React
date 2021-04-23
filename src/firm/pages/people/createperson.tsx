@@ -6,33 +6,44 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { IPerson } from "../../../contracts/IPeople";
 import { DropDownList } from '@progress/kendo-react-dropdowns';
+//import MultiSelect from "@khanacademy/react-multi-select";
+import MultiSelect from "react-multi-select-component";
+
 
 const CreatePerson = (data: any) => {
-    const [personDetail, setPersonDetail] = useState({} as IPerson);
-    //  const [labelDropdownList, setLabelDropdownList] : any = useState();
-    const [contacttypeDropdownList, setContacttypeLabelDropdownList] : any = useState();
-    // const [companiesDropdownList, setCompaniesDropdownList] : any = useState(); 
+    const [personDetail, setPersonDetail] = useState({} as IPerson);    
+    const [contacttypeDropdownList, setContacttypeDropdownList] : any = useState();
+    const [selectedLabel, setSelectedLabel] = useState([]);
+    const [selectedCompany, setSelectedCompany] = useState([]);
+    
       console.log("data in create is ",data);
       let contacttypelist : any = [];
+      let labellist : any = [];
+      let companieslist : any = [];
       if(data != null && data != "undefined")
-      {
-           if(data.contacttypeList != null)
+      {    
+          if(data.data.contacttypeList != null && data.data.contacttypeList != undefined)
            {
-            contacttypelist = data.contacttypeList;
-            setContacttypeLabelDropdownList(data.contacttypeList);
+            data.data.contacttypeList.forEach((item : any) => {
+                contacttypelist.push({value: item.ContactTypeId, label : item.ContactType1});
+              });           
+            console.log("contact type is , ",contacttypelist);
            }
-           console.log("contact type is , ",contacttypeDropdownList);
-      }
-
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
-        { value: 'chocolate1', label: 'Chocolate1' },
-        { value: 'strawberry2', label: 'Strawberry2' },
-        { value: 'vanilla3', label: 'Vanilla3' },
-      ];
-
+           if(data.data.labelList != null && data.data.labelList != undefined)
+           {
+            data.data.labelList.forEach((item : any) => {
+                labellist.push({value: item.LabelId, label : item.LabelName});
+              });           
+            console.log("labels are , ",labellist);
+           }
+           if(data.data.companiesList != null && data.data.companiesList != undefined)
+           {
+            data.data.companiesList.forEach((item : any) => {
+                companieslist.push({value: item.CompanyId, label : item.CompanyName});
+              });           
+            console.log("contact type is , ",companieslist);
+           }
+      }   
       const handleInputChange = (name : any, value : any) => {
             if(name === "firstname")
             personDetail.FirstName = value;
@@ -86,6 +97,14 @@ const CreatePerson = (data: any) => {
             // personDetail.KloutUrl = value;
             console.log("perosn detail : ",personDetail);
       }
+      const setLabels= (item : any) =>
+      {
+        console.log("selected labels ",item);
+      }
+      const setCompanies= (item : any) =>
+      {
+        console.log("selected companies ",item);
+      }
 
     return(
         <form className="person-form">                     
@@ -131,10 +150,20 @@ const CreatePerson = (data: any) => {
                     <div className="row mb-3">
                         <div className="form-group col-sm-12">
                             <label>Labels</label>                 
-                             <Select  
-                                isMulti
-                                options={options}
-                                />
+                            {/* <Typeahead
+                                id="basic-typeahead-multiple"
+                                labelKey= "label"         
+                                options={labellist}          
+                                multiple
+                                defaultSelected={labellist.slice(0, 1)}       
+                                /> */}
+                           
+                        <MultiSelect
+                                options={labellist}
+                                value ={selectedLabel}
+                                onChange={setSelectedLabel}
+                                labelledBy="Select"
+                            />                           
                         </div>            
                     </div>
 
@@ -142,13 +171,21 @@ const CreatePerson = (data: any) => {
                     <div className="row mb-3">
                         <div className="form-group col-sm-12">
                             <label>Company</label>                 
-                            <Typeahead
+                            {/* <Typeahead
                                 id="basic-typeahead-multiple"
-                                labelKey="label"         
-                                options={options}          
+                                labelKey= "label"
+                                options={companieslist}          
                                 multiple
-                                defaultSelected={options.slice(0, 1)}       
-                                />
+                                defaultSelected={companieslist.slice(0, 1)}       
+                                /> */}
+                       
+                                <MultiSelect
+                                options={companieslist}
+                                value ={selectedCompany}
+                                onChange={setSelectedCompany}
+                                labelledBy="Select"
+                                ClearIcon = {true}
+                            />   
                         </div>    
 
                         <div className="form-group col-sm-12">
