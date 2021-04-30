@@ -59,7 +59,7 @@ const FirmHeader = () => {
                 </ul>
               </div>
             </li>
-            <li>
+            <li className="firm-header-icons">
               <a
                 id="announcments"
                 className="btn btn-icon-toggle btn-default beamer_beamerSelector beamerTrigger"
@@ -67,7 +67,7 @@ const FirmHeader = () => {
                 <i className="mdi mdi-bell"></i>
               </a>
             </li>
-            <li>
+            <li className="firm-header-icons">
               <a
                 id="announcments"
                 className="btn btn-icon-toggle btn-default beamer_beamerSelector beamerTrigger"
@@ -76,7 +76,7 @@ const FirmHeader = () => {
                 <div className="beamer_icon active">1</div>
               </a>
             </li>
-            <li className="dropdown hidden-xs">
+            <li className="dropdown hidden-xs firm-header-icons">
               <a className="btn btn-icon-toggle btn-default" href="/app/">
                 <i className="mdi mdi-home"></i>
               </a>
