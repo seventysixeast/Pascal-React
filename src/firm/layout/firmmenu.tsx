@@ -29,6 +29,14 @@ const FirmMenu = () => {
             
           </Link>
         </li>
+
+        <li className="nav-item">
+          <Link className="nav-link" to="/document">
+            <i className="mdi mdi-account-multiple menu-icon"></i>
+            <span className="menu-title">Document</span>
+            
+          </Link>
+        </li>
       </ul>
     </nav>
     </React.Fragment>

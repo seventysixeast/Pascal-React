@@ -25,10 +25,10 @@ const People = () => {
 useEffect(() => {   
   let loginuser: any = localStorage.getItem("user");
   let user = JSON.parse(loginuser); 
-  if(user.FirmId > 0 && user.EmployeeId > 0 && (dropdownList ==null || dropdownList == "undefined"))
-    {  
-      getdropdowns(user.FirmId);
-    }
+  // if(user.FirmId > 0 && user.EmployeeId > 0 && (dropdownList ==null || dropdownList == "undefined"))
+  //   {  
+  //     getdropdowns(user.FirmId);
+  //   }
   });
 
 const getdropdowns =(firmid : any)=>
@@ -38,13 +38,18 @@ const getdropdowns =(firmid : any)=>
     console.log("getting drop down data");   
     if(data != null)
     {    
-      setDropdownList({labelList: data.firmlabels, contacttypeList : data.allcontacttypes, companiesList: data.companies });
+      setDropdownList({labelList: data.firmlabels, contacttypeList : data.allcontacttypes, companiesList: data.companies, firmcompanyId: firmid });
     }
   })
 }
 const handleInputChange = (name : any, value : any) => {
 
 }
+
+const deletePeople = () => {
+
+}
+
   return (
     <>
       <div className="row align-items-center page-bar" id="proBanner">
@@ -72,10 +77,12 @@ const handleInputChange = (name : any, value : any) => {
                 </li>
                 <li className="divider"></li>
                 <li>
-                  <a href="">Label Selected</a>
+                  <a className="btn btn-icon-toggle btn-default"
+              href="javascript:void(0)">Label Selected</a>
                 </li>
                 <li>
-                  <a href="">Merge Selected</a>
+                  <a className="btn btn-icon-toggle btn-default"
+              href="javascript:void(0)">Merge Selected</a>
                 </li>
                 <li>
                   <a href="">Export CSV</a>
@@ -83,10 +90,8 @@ const handleInputChange = (name : any, value : any) => {
                 <li className="divider"></li>
                 <li>
                   <a
-                    href=""
-                    data-toggle="modal"
-                    data-target="#deleteConfirmModal"
-                  >
+                    className="btn btn-icon-toggle btn-default"
+                    href="javascript:void(0)" onClick={() => deletePeople()}>  
                     <i className="mdi mdi-delete text-danger"></i> Delete
                     Selected
                   </a>
@@ -147,6 +152,7 @@ const handleInputChange = (name : any, value : any) => {
         {isCreateModal ? renderCreateModal() : null}
       </div>
       <PeopleGrid parentCallback={() => callback}/>
+
     </>
   );
 

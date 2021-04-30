@@ -8,6 +8,8 @@ import { IPerson } from "../../../contracts/IPeople";
 import { DropDownList } from '@progress/kendo-react-dropdowns';
 //import MultiSelect from "@khanacademy/react-multi-select";
 import MultiSelect from "react-multi-select-component";
+import { Button } from 'react-bootstrap';
+import PeopleService from '../../../services/peopleService';
 
 
 const CreatePerson = (data: any) => {
@@ -15,20 +17,24 @@ const CreatePerson = (data: any) => {
     const [contacttypeDropdownList, setContacttypeDropdownList] : any = useState();
     const [selectedLabel, setSelectedLabel] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState([]);
+    const [labelids, setlabelids] : any = useState();
+    const [companyids, setCompanyids] : any = useState();
     
       console.log("data in create is ",data);
-      let contacttypelist : any = [];
+     // let contacttypelist : any = [];
       let labellist : any = [];
       let companieslist : any = [];
+      let companiesoptions : any = [];
+      let contacttypeoptions : any = [];
+
       if(data != null && data != "undefined")
-      {    
-          if(data.data.contacttypeList != null && data.data.contacttypeList != undefined)
-           {
-            data.data.contacttypeList.forEach((item : any) => {
-                contacttypelist.push({value: item.ContactTypeId, label : item.ContactType1});
-              });           
-            console.log("contact type is , ",contacttypelist);
-           }
+      {         
+        contacttypeoptions = data.data.contacttypeList.length > 0
+           && data.data.contacttypeList.map((item : any, i : any) => {
+            return (
+            <option key={i} value={item.ContactTypeId}>{item.ContactType1}</option>
+            )}, this);
+
            if(data.data.labelList != null && data.data.labelList != undefined)
            {
             data.data.labelList.forEach((item : any) => {
@@ -36,14 +42,13 @@ const CreatePerson = (data: any) => {
               });           
             console.log("labels are , ",labellist);
            }
-           if(data.data.companiesList != null && data.data.companiesList != undefined)
-           {
-            data.data.companiesList.forEach((item : any) => {
-                companieslist.push({value: item.CompanyId, label : item.CompanyName});
-              });           
-            console.log("contact type is , ",companieslist);
-           }
-      }   
+         companiesoptions = data.data.companiesList.length > 0
+            && data.data.companiesList.map((item : any, i : any) => {
+          return (
+            <option key={i} value={item.CompanyId}>{item.CompanyName}</option>
+            )}, this);            
+        }
+        
       const handleInputChange = (name : any, value : any) => {
             if(name === "firstname")
             personDetail.FirstName = value;
@@ -52,25 +57,25 @@ const CreatePerson = (data: any) => {
             if(name === "spousefirstname")
             personDetail.SpouseFirstName = value;
             if(name === "spouselastname")
-            personDetail.SpouseLastName = value;
+            personDetail.SpouseLastName = value;        
             if(name === "website")
             personDetail.WebSite = value;
             if(name === "title")
             personDetail.Title = value;
-            if(name === "Email")
-            personDetail.EmailAddress = value;
+            //if(name === "Email")
+           // personDetail.Email = value;
             if(name === "phone")
             personDetail.PhoneNumber = value;
             if(name === "street")
             personDetail.Street = value;
             if(name === "city")
             personDetail.City = value;
+            if(name === "state")
+            personDetail.State = value;
             if(name === "country")
             personDetail.Country = value;
             if(name === "zipcode")
-            personDetail.Zipcode = value;
-            if(name === "city")
-            personDetail.City = value;
+            personDetail.Zipcode = value;           
             if(name === "taxid")
             personDetail.TaxId = value;
             if(name === "dob")
@@ -90,20 +95,46 @@ const CreatePerson = (data: any) => {
             if(name === "klout")
             personDetail.KloutUrl = value;
             if(name ==="description")
-            personDetail.Description = value;
-            // if(name === "klout")
-            // personDetail.KloutUrl = value;
-            // if(name === "klout")
-            // personDetail.KloutUrl = value;
-            console.log("perosn detail : ",personDetail);
-      }
-      const setLabels= (item : any) =>
+            personDetail.Description = value;              
+      } 
+        const handleCompanySelect=(e : any)=>{
+            personDetail.CompanyId = e.target.value;           
+        }
+        const handleContacttypeSelect=(e : any)=>{
+            personDetail.ContactTypeId = e.target.value;           
+        }
+     
+      const [isLoading, setLoading] = useState(false);
+      const handleCreatePerson =async()=>
       {
-        console.log("selected labels ",item);
-      }
-      const setCompanies= (item : any) =>
-      {
-        console.log("selected companies ",item);
+        if(selectedLabel != null && selectedLabel.length > 0)
+        {
+            console.log("selected companies are = ",selectedLabel); 
+            var ids : string = "";
+            selectedLabel.map((lbl : any) => {
+                ids += lbl.LabelId +",";                
+            });  
+            setlabelids(ids);   
+            console.log("lablel ids are = ",labelids);
+        }
+
+        if(selectedCompany != null && selectedCompany.length > 0)
+        {
+            console.log("selected companies are = ",selectedCompany); 
+            var ids : string  = "";
+            selectedCompany.map((comp : any) => {
+                ids += comp.CompanyId +",";                
+            });  
+            setCompanyids(ids);   
+            console.log("company ids are = ",companyids);
+        }
+        personDetail.Labels = labelids;        
+        personDetail.FirmCompanyId = data.data.firmcompanyId;
+        let service = new PeopleService();  
+        await service.AddPeople(personDetail).then((responsedata : any) => { 
+            console.log("add people Response", responsedata); 
+            alert(responsedata);
+        });
       }
 
     return(
@@ -142,22 +173,14 @@ const CreatePerson = (data: any) => {
                     <div className="row mb-3">
                        <div className="form-group col-sm-12">
                            <label>Contact Type</label>                 
-                           <Select options={contacttypelist} />
+                           <select onChange={handleContacttypeSelect}>{contacttypeoptions}</select>
                        </div>            
                     </div>
 
                     {/* labels*/}
                     <div className="row mb-3">
                         <div className="form-group col-sm-12">
-                            <label>Labels</label>                 
-                            {/* <Typeahead
-                                id="basic-typeahead-multiple"
-                                labelKey= "label"         
-                                options={labellist}          
-                                multiple
-                                defaultSelected={labellist.slice(0, 1)}       
-                                /> */}
-                           
+                            <label>Labels</label> 
                         <MultiSelect
                                 options={labellist}
                                 value ={selectedLabel}
@@ -170,24 +193,9 @@ const CreatePerson = (data: any) => {
                     {/* Company*/}
                     <div className="row mb-3">
                         <div className="form-group col-sm-12">
-                            <label>Company</label>                 
-                            {/* <Typeahead
-                                id="basic-typeahead-multiple"
-                                labelKey= "label"
-                                options={companieslist}          
-                                multiple
-                                defaultSelected={companieslist.slice(0, 1)}       
-                                /> */}
-                       
-                                <MultiSelect
-                                options={companieslist}
-                                value ={selectedCompany}
-                                onChange={setSelectedCompany}
-                                labelledBy="Select"
-                                ClearIcon = {true}
-                            />   
-                        </div>    
-
+                           <label>Company</label>        
+                            <select onChange={handleCompanySelect}>{companiesoptions}</select>                       
+                        </div>  
                         <div className="form-group col-sm-12">
                             <label>Work WebSite</label>
                             <input type="input" className="form-control" onChange={(e)=> handleInputChange("website", e.target.value)}/>
@@ -302,6 +310,13 @@ const CreatePerson = (data: any) => {
                              <label>Description</label>
                              <textarea className="form-control" rows={3} onChange={(e)=> handleInputChange("description", e.target.value)}/>
                         </div>
+                        <Button
+                            variant="primary"
+                            disabled={isLoading}
+                            onClick = {handleCreatePerson}
+                            >
+                            {isLoading ? 'Loading…' : 'Add Person'}
+                        </Button>                      
                     </div>
                 </div>
             </div>         

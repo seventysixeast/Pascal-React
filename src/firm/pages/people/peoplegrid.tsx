@@ -5,6 +5,7 @@ import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import Grid from "../../../components/dataTable";
 import PeopleService from '../../../services/peopleService';
+import GridLoader from "react-spinners/GridLoader";
 
 const PeopleGrid = ({parentCallback} : any) => {    
   const [columns, setColumns] = useState([] as any[]);
@@ -12,7 +13,7 @@ const PeopleGrid = ({parentCallback} : any) => {
   const [isPersonDetailModal, setIsPersonDetailModal] = useState(false);
   const [activePersonInfoKey, setActivePersonInfoKey] = useState("detail");
   const [isPeopleSettings, setIsPeopleSettings]: any = useState(false);
-
+  const [loading, setLoading]: any = useState(true);
   //let [filterdata, setFilterdata] : any = useState({FirmCompanyId : '', EmployeeId : ''});
 
   useEffect(() => {   
@@ -66,20 +67,26 @@ const PeopleGrid = ({parentCallback} : any) => {
       </SlidingPane>
     );
   }
-
-  const getPeople= async(filter_data : any)=> {   
+ 
+  const getPeople= async(filter_data : any)=> {     
     let service = new PeopleService();   
-    console.log("filter_data = ",filter_data);   
+    console.log("filter_data = ",filter_data); 
+
+    var starttime = performance.now();  
     await service.GetAllPeople(filter_data).then((data) => { 
       console.log("get people Response", data); 
+      var endtime = performance.now();
+      var timetaken_request = endtime - starttime;
+      console.log("time taken in request = "+timetaken_request);
       var columnarr : any=[]; 
      // parentCallback(data.Listcount);     
        
       //setTotalCount(data.Listcount);
-      if(data.CustomColumns !== null && data.CustomColumns !== "" && data.CustomColumns !== "undefined")
+
+      if(data.Columns !== null && data.Columns !== "" && data.Columns !== "undefined")
       {
-        columnarr = data.CustomColumns.split(",");
-        console.log(columnarr);
+        columnarr = data.Columns.split(",");
+        console.log("columnarray are "+columnarr);
         var colarr : any = [];
         colarr.push({
             name: "",
@@ -94,15 +101,15 @@ const PeopleGrid = ({parentCallback} : any) => {
         setColumns(colarr);
       }      
       console.log("final columns" ,columns);
-    if( data.PeopleList !== null &&  data.PeopleList !== undefined &&  data.PeopleList.length > 0)
+    if( data.List !== null &&  data.List !== undefined &&  data.List.length > 0)
     {      
-      data.PeopleList.forEach(function (row: any, index: number) {
+      data.List.forEach(function (row: any, index: number) {
           row["Name"] = (
             <a
               href="javascript:void(0)"
               onClick={() => setIsPersonDetailModal(true)}
             > 
-              {row.Name}
+              {row.PersonName}
             </a>
           );
           row["settings"] = (
@@ -110,30 +117,36 @@ const PeopleGrid = ({parentCallback} : any) => {
               <i className="mdi mdi-settings"></i>
             </a>
           );
+          row["Company"] = (<span> {row.CompanyName} </span>);
+          row["TaxID"] = (<span> {row.TaxId} </span>);
+          row["Phone"] = (<span> {row.PhoneNumber} </span>);
           row["Portal Status"] = (<span> {row.PortalStatus} </span>);
           row["Spouse Name"] = (<span> {row.SpouseName} </span>);
           row["Contact Type"] = (<span> {row.ContactType} </span>);
+          row["Labels"] = (<span> {row.SelectedLabelname} </span>);
+          row["Created"] = (<span> {row.AddedOnFormatted} </span>);
+          row["Modified"] = (<span> {row.LastModifiedOnFormatted} </span>);
+          row["Referred By"] = (<span> {row.ReferredSource} </span>);
         });
         console.log("list is =",rows);
-        setRows(data.PeopleList); 
-    }
+        setRows(data.List); 
+      }
       else{
         console.log("not able to get records");
       }
-
- // },2000);
-  }); 
-  }
+    });
+    setLoading(false);
+  }  
 
   return (
-    <>
-      <div className="col-md-12 datatbale-row">
-        <Grid columns={columns} rows={rows} title="People"/>
-      </div>
+    <> <div className="col-md-12 datatbale-row">
+    <Grid columns={columns} rows={rows} progresspending={loading}/>
+  </div>
       {isPeopleSettings ? renderSettingModal() : null}
       {isPersonDetailModal ? personDetailModal() : null}
     </>
   );
+ 
   function renderSettingModal() {
     return (
       <Modal

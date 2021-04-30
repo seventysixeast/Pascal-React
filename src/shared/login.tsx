@@ -7,6 +7,8 @@ import logourl from "../assets/images/logo.png";
 import UserService from '../services/userService';
 import ClientLayout from '../client/layout/clientlayout';
 import FirmLayout from '../firm/layout/firmlayout';
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 
 const Login =()=>{
@@ -16,6 +18,7 @@ const Login =()=>{
     const [user, setUser] : any = useState({ grant_type: "password", username: "", password: ""} as IUser);
     const [istoken, setIsToken] = useState(false);
     const [user_role , setUser_role] : any = useState();
+    const [isloading , setIsloading] : any = useState(false);
 
     useEffect(() => {
       console.log("LoggedIn User");
@@ -44,6 +47,7 @@ const Login =()=>{
 
  const handleSubmit = async(e: any)=>{
   e.preventDefault();    
+  setIsloading(true);
     console.log("token is null");
     if (user.username !== null && user.password !== null && user.username !== "" && user.password !== "") {
         let service = new AuthService();
@@ -67,15 +71,19 @@ const Login =()=>{
                             {
                                 console.log("login with employee"); 
                                 setIsToken(true);  
+                                setIsloading(false);
                             }
                             else if(loginuser.UserRole === "Client")
                             {
                               console.log("login with client");
-                              setIsToken(true);  
+                              setIsToken(true);
+                              setIsloading(false);  
                             }
                             else{
+                              alert("Role not found");
                               console.log("role not found.");
-                            }
+                              setIsloading(false);
+                            }                           
                           }
                         }                    
                       }) 
@@ -83,16 +91,22 @@ const Login =()=>{
                 else
                 {
                   toast(data.message, { type: "error" });
+                  setIsloading(false);
+                  alert(data.message);
                 }            
         }).catch((ex) => {
             console.log(ex);
             toast("Login Failed", { type: "error" });
-        })
+            setIsloading(false);
+            alert("Login Failed");
+        })        
     }
     else
     {
       console.log("credentials not found");
-    }
+      setIsloading(false);
+            alert("credentials not found");
+    }   
 }
 
     return( 
@@ -128,6 +142,16 @@ const Login =()=>{
                           Forgot <a href="#">password?</a>
                       </p>
                   </form>
+                    
+            {      isloading ?       
+                  <Loader
+                    type="ThreeDots"
+                    color="#00BFFF"
+                    height={50}
+                    width={100}
+                    timeout={3000} //3 secs
+                  />      : null       
+            }                    
             </div>
       </div>
       </div>

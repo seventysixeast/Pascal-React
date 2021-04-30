@@ -45,7 +45,39 @@ export interface IPerson{
     SpouseTaxId: string,
     PortalStatus: string,
     CompanyId: number,
+    ContactTypeId: number,
     FirmCompanyId: number,
     DOB: string,
-    InviteCount : number
+    InviteCount : number,
+    Labels : string,
+    Companies :string
+}
+//string[] ContactTypes = null, string[] portalstatus = null, string[] labels = null, string[] follow = null,string searchkeyword =null, string start= null, string end= null, string company= null, string city= null, string state= null, string zip= null, string country =null, string referredBy = null, long? companyid= null, bool firstTimeLoad = false, long? GridId = 0, string FilterStatus = "Public", string orderby = "AddedOn", string orderdir = "desc", int pageNumber = 1, int? pagesize = 10, int FilterFlag = 0, bool reactFlag = false
+export interface IPersonFilter
+{
+    ContactTypes : string[],
+    portalstatus : string[],
+    labels : string[],
+    follow : string[],
+    searchkeyword : string,
+    start : string,
+    end : string,
+    company : string,
+    city : string,
+    state : string ,
+    zip : string,
+    country : string ,
+    referredBy : string,
+    companyid : number,
+    firstTimeLoad : boolean,
+    GridId : number,
+    FilterStatus : string,
+    orderby : string,
+    orderdir : string,
+    pageNumber : number,
+    pagesize : number,
+    FilterFlag : number,
+    reactFlag : boolean,
+    firmcompanyid : number,
+    employeeid : number
 }

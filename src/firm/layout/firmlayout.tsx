@@ -4,6 +4,7 @@ import FirmHeader from "./firmheader";
 import FirmMenu from "./firmmenu"
 import Dashboard from '../pages/dashboard';
 import People from '../pages/people/people';
+import Document from '../pages/document/document';
 const FirmLayout = () => {
     return (
         <React.Fragment>
@@ -17,7 +18,8 @@ const FirmLayout = () => {
                                 <Redirect to="/dashboard" />
                             </Route>
                             <Route path="/dashboard" component={Dashboard} /> 
-                            <Route path="/people" component={People} />   
+                            <Route path="/people" component={People} />  
+                            <Route path="/document" component={Document} />   
                         </Switch>
                     </div>
                 </div>
