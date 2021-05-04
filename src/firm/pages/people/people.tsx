@@ -25,10 +25,10 @@ const People = () => {
 useEffect(() => {   
   let loginuser: any = localStorage.getItem("user");
   let user = JSON.parse(loginuser); 
-  // if(user.FirmId > 0 && user.EmployeeId > 0 && (dropdownList ==null || dropdownList == "undefined"))
-  //   {  
-  //     getdropdowns(user.FirmId);
-  //   }
+  if(user.FirmId > 0 && user.EmployeeId > 0 && (dropdownList ==null || dropdownList == "undefined"))
+    {  
+      getdropdowns(user.FirmId);
+    }
   });
 
 const getdropdowns =(firmid : any)=>
