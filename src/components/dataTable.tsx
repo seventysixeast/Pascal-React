@@ -9,9 +9,10 @@ const Grid = ({ columns,rows,title, progresspending}: any) => {
       theme="coolDerby"
       data={rows}            
       highlightOnHover={true}
-      selectableRows={false}
+      selectableRows={true}
       pagination={true}  
-      progressPending = {progresspending}   
+      progressPending = {progresspending} 
+     // onSelectedRowsChange ={(rows => )}    
     />
   )
 }

@@ -14,6 +14,7 @@ const PeopleGrid = ({parentCallback} : any) => {
   const [activePersonInfoKey, setActivePersonInfoKey] = useState("detail");
   const [isPeopleSettings, setIsPeopleSettings]: any = useState(false);
   const [loading, setLoading]: any = useState(true);
+  const [selectedRow, setSelectedRow] = useState([] as string[]);
   //let [filterdata, setFilterdata] : any = useState({FirmCompanyId : '', EmployeeId : ''});
 
   useEffect(() => {   
@@ -30,6 +31,16 @@ const PeopleGrid = ({parentCallback} : any) => {
       console.log("no filter found");
     }
   }, []);
+//for headers
+function onSelectRowsHandler(row:any) {
+  setSelectedRow(
+    row.selectedRows.map((item: any) => {
+        return item.DocumentId;
+    })
+  )
+  console.log("selected user= "+selectedRow);
+  console.log("selected users are here");
+}
 
   function onPersonInfoChange(key: any) {
     setActivePersonInfoKey(key);
@@ -73,19 +84,20 @@ const PeopleGrid = ({parentCallback} : any) => {
     console.log("filter_data = ",filter_data); 
 
     var starttime = performance.now();  
-    await service.GetAllPeople(filter_data).then((data) => { 
+
+    await service.GetCustomFilter().then((filterdata) => {
+ console.log("filterdaata = ",filterdata);
+if(filterdata != null)
+{
+     service.GetAllPeople(filter_data).then((data) => { 
       console.log("get people Response", data); 
       var endtime = performance.now();
       var timetaken_request = endtime - starttime;
       console.log("time taken in request = "+timetaken_request);
       var columnarr : any=[]; 
-     // parentCallback(data.Listcount);     
-       
-      //setTotalCount(data.Listcount);
-
-      if(data.Columns !== null && data.Columns !== "" && data.Columns !== "undefined")
+      if(filterdata.Columns !== null && filterdata.Columns !== "" && filterdata.Columns !== "undefined")
       {
-        columnarr = data.Columns.split(",");
+        columnarr = filterdata.Columns.split(",");
         console.log("columnarray are "+columnarr);
         var colarr : any = [];
         colarr.push({
@@ -135,12 +147,14 @@ const PeopleGrid = ({parentCallback} : any) => {
         console.log("not able to get records");
       }
     });
+  }
+  });
     setLoading(false);
   }  
 
   return (
     <> <div className="col-md-12 datatbale-row">
-    <Grid columns={columns} rows={rows} progresspending={loading}/>
+    <Grid columns={columns} rows={rows} progresspending={loading} onSelectedRowsChange={(row : any) => onSelectRowsHandler(row)}/>
   </div>
       {isPeopleSettings ? renderSettingModal() : null}
       {isPersonDetailModal ? personDetailModal() : null}

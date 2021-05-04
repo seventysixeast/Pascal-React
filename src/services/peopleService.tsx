@@ -51,6 +51,14 @@ class PeopleService extends BaseService {
               data: data        
         }, true);
     }
+
+    async GetCustomFilter()
+    {               
+        return await this.API({
+            url:'api/people/GetCustomFilterData',           
+            method: "GET" 
+        }, true);
+    }
 }
 
 export default PeopleService;
