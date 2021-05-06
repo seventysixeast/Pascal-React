@@ -82,75 +82,98 @@ function onSelectRowsHandler(row:any) {
   const getPeople= async(filter_data : any)=> {     
     let service = new PeopleService();   
     console.log("filter_data = ",filter_data); 
-
-    var starttime = performance.now();  
-
+    var starttime = performance.now(); 
     await service.GetCustomFilter().then((filterdata) => {
  console.log("filterdaata = ",filterdata);
-if(filterdata != null)
-{
-     service.GetAllPeople(filter_data).then((data) => { 
-      console.log("get people Response", data); 
-      var endtime = performance.now();
-      var timetaken_request = endtime - starttime;
-      console.log("time taken in request = "+timetaken_request);
-      var columnarr : any=[]; 
-      if(filterdata.Columns !== null && filterdata.Columns !== "" && filterdata.Columns !== "undefined")
-      {
-        columnarr = filterdata.Columns.split(",");
-        console.log("columnarray are "+columnarr);
-        var colarr : any = [];
-        colarr.push({
-            name: "",
-            selector: "settings",
-            sortable: true,
-            width: 50,
-          });
-        columnarr.forEach(function(column : any, index : number){
-         // if(column == "")
-          colarr.push({name : column, selector : column , sortable : true});          
-        });
-        setColumns(colarr);
-      }      
-      console.log("final columns" ,columns);
-    if( data.List !== null &&  data.List !== undefined &&  data.List.length > 0)
-    {      
-      data.List.forEach(function (row: any, index: number) {
-          row["Name"] = (
-            <a
-              href="javascript:void(0)"
-              onClick={() => setIsPersonDetailModal(true)}
-            > 
-              {row.PersonName}
-            </a>
-          );
-          row["settings"] = (
-            <a href="javascript:void(0)" onClick={() => setIsPeopleSettings(true)}>
+  if(filterdata != null)
+  {
+      service.GetAllPeople(filter_data).then((data) => { 
+        console.log("get people Response", data); 
+        var endtime = performance.now();
+        var timetaken_request = endtime - starttime;
+        console.log("time taken in request = "+timetaken_request);
+        var columnarr : any=[]; 
+        if(filterdata.Columns !== null && filterdata.Columns !== "" && filterdata.Columns !== "undefined")
+        {
+          columnarr = filterdata.Columns.split(",");
+          console.log("columnarray are "+columnarr);
+          var colarr : any = [];
+          colarr.push({
+              name: "",
+              selector: "settings",
+              sortable: true,
+              width: 50,
+              cell: (row: any) => <a href="javascript:void(0)" onClick={() => setIsPeopleSettings(true)}>
               <i className="mdi mdi-settings"></i>
-            </a>
-          );
-          row["Company"] = (<span> {row.CompanyName} </span>);
-          row["TaxID"] = (<span> {row.TaxId} </span>);
-          row["Phone"] = (<span> {row.PhoneNumber} </span>);
-          row["Portal Status"] = (<span> {row.PortalStatus} </span>);
-          row["Spouse Name"] = (<span> {row.SpouseName} </span>);
-          row["Contact Type"] = (<span> {row.ContactType} </span>);
-          row["Labels"] = (<span> {row.SelectedLabelname} </span>);
-          row["Created"] = (<span> {row.AddedOnFormatted} </span>);
-          row["Modified"] = (<span> {row.LastModifiedOnFormatted} </span>);
-          row["Referred By"] = (<span> {row.ReferredSource} </span>);
-        });
-        console.log("list is =",rows);
-        setRows(data.List); 
-      }
-      else{
-        console.log("not able to get records");
-      }
+            </a>,
+            });
+          columnarr.forEach(function(column : any, index : number){
+           if(column === "Name")
+           {
+            colarr.push({name : column, selector : column , sortable : true, cell : (row: any) => <a
+              href="javascript:void(0)"
+              onClick={() => setIsPersonDetailModal(true)}>{row.PersonName} </a>,});
+           }
+           else if(column === "Company") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) => <div>{row.CompanyName}</div>,});         
+           }   
+           else if(column === "TaxID") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) => <div>{row.TaxId}</div>,}); 
+           }
+           else if(column === "Phone") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) =><div>{row.PhoneNumber}</div>,}); 
+           }
+           else if(column === "Portal Status") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) => <div>{row.PortalStatus}</div>,}); 
+           }
+           else if(column === "Spouse Name") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) => <div>{row.SpouseName}</div>,}); 
+           }
+           else if(column === "Contact Type") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) => <div>{row.ContactType}</div>,}); 
+           }
+           else if(column === "Labels") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) => <div>{row.SelectedLabelname}</div>,}); 
+           }
+           else if(column === "Created") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) =><div> {row.AddedOnFormatted}</div>,}); 
+           } else if(column === "Modified") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) =><div> {row.LastModifiedOnFormatted}</div>,}); 
+           }
+           else if(column === "Referred By") 
+           {
+            colarr.push({name : column, selector : column , sortable : true , cell : (row: any) => <div>{row.ReferredSource}</div>,}); 
+           }
+           else
+           {
+            colarr.push({name : column, selector : column , sortable : true});      
+           }
+          });
+          setColumns(colarr);
+        }      
+        console.log("final columns" ,columns);
+      if( data.List !== null &&  data.List !== undefined &&  data.List.length > 0)
+      {             
+          console.log("list is =",rows);
+          setRows(data.List); 
+        }
+        else{
+          console.log("not able to get records");
+        }
+      });
+    }
     });
-  }
-  });
-    setLoading(false);
-  }  
+      setLoading(false);
+    }  
 
   return (
     <> <div className="col-md-12 datatbale-row">
