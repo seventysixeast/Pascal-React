@@ -107,6 +107,7 @@ function onSelectRowsHandler(row:any) {
               <i className="mdi mdi-settings"></i>
             </a>,
             });
+            
           columnarr.forEach(function(column : any, index : number){
            if(column === "Name")
            {
