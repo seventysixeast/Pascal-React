@@ -5,7 +5,7 @@ import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import Grid from "../../../components/dataTable";
 import PeopleService from '../../../services/peopleService';
-import GridLoader from "react-spinners/GridLoader";
+//import GridLoader from "react-spinners/GridLoader";
 
 const PeopleGrid = ({parentCallback} : any) => {    
   const [columns, setColumns] = useState([] as any[]);
@@ -107,7 +107,7 @@ function onSelectRowsHandler(row:any) {
               <i className="mdi mdi-settings"></i>
             </a>,
             });
-            
+
           columnarr.forEach(function(column : any, index : number){
            if(column === "Name")
            {
@@ -146,7 +146,8 @@ function onSelectRowsHandler(row:any) {
            else if(column === "Created") 
            {
             colarr.push({name : column, selector : column , sortable : true , cell : (row: any) =><div> {row.AddedOnFormatted}</div>,}); 
-           } else if(column === "Modified") 
+           } 
+           else if(column === "Modified") 
            {
             colarr.push({name : column, selector : column , sortable : true , cell : (row: any) =><div> {row.LastModifiedOnFormatted}</div>,}); 
            }
@@ -246,5 +247,6 @@ function onSelectRowsHandler(row:any) {
       </Modal>
     );
   }
+  
 };
 export default PeopleGrid;

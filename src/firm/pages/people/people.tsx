@@ -25,7 +25,8 @@ const People = () => {
 useEffect(() => {   
   let loginuser: any = localStorage.getItem("user");
   let user = JSON.parse(loginuser); 
-  if(user.FirmId > 0 && user.EmployeeId > 0 && (dropdownList ==null || dropdownList == "undefined"))
+  console.log("dropdown list= ",dropdownList);
+  if(user.FirmId > 0 && user.EmployeeId > 0 && (dropdownList == null || dropdownList == "undefined"))
     {  
       getdropdowns(user.FirmId);
     }
@@ -198,7 +199,7 @@ const deletePeople = () => {
         <div className="btn-group check-dropdown btn-primary-width" id="contacttype_filter">
           <button className="btn btn-toggle btn-default btn-block btn-filter-selectbutton" data-toggle="dropdown">Contact type  <i className="mdi mdi-menu-down float-right"></i>
           </button>
-          <ul role="menu" className="list dropdown-menu animation-dock" data-sortable="true">
+          {/* <ul role="menu" className="list dropdown-menu animation-dock" data-sortable="true">
             {
               contactTypes.map((item) => (
                 <li className="tile">
@@ -214,12 +215,12 @@ const deletePeople = () => {
                 </li>
               ))
             }
-          </ul>
+          </ul> */}
         </div> 
         <div className="btn-group check-dropdown btn-primary-width" id="portal_filter">
           <button className="btn btn-toggle btn-default btn-block btn-filter-selectbutton" data-toggle="dropdown">PORTAL STATUS <i className="mdi mdi-menu-down float-right"></i>
           </button>
-          <ul role="menu" className="list dropdown-menu animation-dock" data-sortable="true">
+          {/* <ul role="menu" className="list dropdown-menu animation-dock" data-sortable="true">
           {
             portals.map((item) => (
               <li className="tile">
@@ -235,7 +236,7 @@ const deletePeople = () => {
               </li>
             ))
           }
-          </ul>
+          </ul> */}
         </div> 
         <div className="btn-group check-dropdown btn-primary-width" id="labels_filter" >
           <button className="btn btn-toggle btn-default btn-block btn-filter-selectbutton" data-toggle="dropdown">LABELS 
