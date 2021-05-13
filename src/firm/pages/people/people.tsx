@@ -6,6 +6,32 @@ import PeopleGrid from "./peoplegrid";
 import "../../../assets/css/firmstyle.css";
 import CreatePerson from "./createperson";
 import FirmService from '../../../services/firmService';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import Divider from '@material-ui/core/Divider';
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }),
+);
 
 const People = () => {
   const [isSettingModal, setIsSettingModal]: any = useState(false);
@@ -17,6 +43,25 @@ const People = () => {
   const portals = [{"text": "portal1"},{"text": "portal2"},{"text": "portal3"},{"text": "portal4"},{"text": "portal5"}]; 
   const labels = [{"text": "label1"},{"text": "label2"},{"text": "label3"},{"text": "label4"},{"text": "label5"}]; 
   const followedByDtata = [{"text": "Follower1"},{"text": "Follower2"},{"text": "Follower3"},{"text": "Follower4"},{"text": "Follower5"}]; 
+	
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+	const [anchorEl2, setAnchorEl2] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+	const openFilter = Boolean(anchorEl2);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+  };  
+	const handleMenuFilter = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl2(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+	const handleCloseFilter = () => {
+    setAnchorEl2(null);
+  };
 
  const callback = ({totalcount} : any) => {
   setTotalCount(totalcount);
@@ -60,72 +105,86 @@ const deletePeople = () => {
               <button
                 type="button"
                 className="dropdown-toggle btn ink-reaction btn-floating-action btn-danger"
-                data-toggle="dropdown"
-                aria-expanded="false"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+								aria-controls="grid-option"
               >
                 <i className="mdi mdi-plus font-15"></i>
               </button>
-              <ul
-                className="dropdown-menu dropdown-menu-left animation-expand"
-                role="menu"
-              >
-                <li>
-                <a
-              className="btn btn-icon-toggle btn-default"
-              href="javascript:void(0)"
-              onClick={() => setIsCreateModal(true)}
-            >Add Person</a>
-                </li>
-                <li className="divider"></li>
-                <li>
-                  <a className="btn btn-icon-toggle btn-default"
-              href="javascript:void(0)">Label Selected</a>
-                </li>
-                <li>
-                  <a className="btn btn-icon-toggle btn-default"
-              href="javascript:void(0)">Merge Selected</a>
-                </li>
-                <li>
-                  <a href="">Export CSV</a>
-                </li>
-                <li className="divider"></li>
-                <li>
-                  <a
+							
+							<Menu
+                id="grid-option"
+                anchorEl={anchorEl}
+                keepMounted
+                open={open}
+                onClose={handleClose}
+							>
+              <MenuItem onClick={handleClose} style={{width:"251px"}}><a
+									className="btn btn-icon-toggle btn-default"
+									href="javascript:void(0)"
+									onClick={() => setIsCreateModal(true)}
+								>Add Person</a>
+								</MenuItem>
+								<Divider />
+								<MenuItem onClick={handleClose}>
+									<a className="btn btn-icon-toggle btn-default"
+									href="javascript:void(0)">Label Selected</a>
+								</MenuItem>
+								<MenuItem onClick={handleClose}>
+									<a className="btn btn-icon-toggle btn-default"
+									href="javascript:void(0)">Merge Selected
+									</a>
+								</MenuItem> 
+								<MenuItem onClick={handleClose}>
+									<a href="" className="btn btn-icon-toggle btn-default">Export CSV</a>
+								</MenuItem> 
+								<Divider />
+								<MenuItem onClick={handleClose}>
+									<a
                     className="btn btn-icon-toggle btn-default"
                     href="javascript:void(0)" onClick={() => deletePeople()}>  
                     <i className="mdi mdi-delete text-danger"></i> Delete
                     Selected
                   </a>
-                </li>
-              </ul>
+								</MenuItem>
+							</Menu>
+
             </div>
 
             <div className="btn-group dropdown" id="filter-btn">
               <button
-                data-toggle="dropdown"
                 className="btn ink-reaction btn-primary all-people-btn"
                 type="button"
-                aria-expanded="false"
+                aria-haspopup="true"
+                onClick={handleMenuFilter}
+                color="inherit"
+								aria-controls="grid-filter"
               >
                 All People ({totalcount})
                 <i className="mdi mdi-caret-down text-default-light"></i>
               </button>
-              <ul className="dropdown-menu animation-expand">
-                <li className="nested-list">
-                  <p>System Filters</p>
-                </li>
-                <li className="divider"></li>
-
-                <li className="divider"></li>
-                <li className="nested-list">
-                  <p>Your Custom Filters</p>
-                </li>
-                <li className="divider"></li>
-                <li className="divider"></li>
-                <li>
-                  <a href="#">Create Custom Filter</a>
-                </li>
-              </ul>
+							<Menu
+                id="grid-filters"
+                anchorEl={anchorEl2}
+								anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+								transformOrigin={{ vertical: "bottom", horizontal: "center" }}
+                keepMounted
+                open={openFilter}
+                onClose={handleCloseFilter}
+							>
+								<MenuItem onClick={handleCloseFilter} >
+								<p>System Filters</p>
+								</MenuItem>
+								<Divider />
+								<MenuItem onClick={handleCloseFilter} >
+								<p>Your Custom Filters</p>
+								</MenuItem>
+								<Divider />
+								<MenuItem onClick={handleCloseFilter} >
+								<p>Create Custom Filter</p>
+								</MenuItem>
+							</Menu>
             </div>
           </div>
         </div>

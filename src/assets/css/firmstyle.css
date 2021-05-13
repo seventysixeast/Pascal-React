@@ -314,3 +314,12 @@ ul.header-nav.header-nav-options .firm-header-icons:hover {
 	font-size: 1rem;
 	height: calc(1.5em + .75rem + 2px);
 }
+#menu-appbar li a {
+    color: #000;
+    text-transform: capitalize;
+    text-decoration: none;
+		font-size: 0.875rem;
+}
+.grid-option {
+	top :125px;
+}

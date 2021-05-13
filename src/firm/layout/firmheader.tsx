@@ -4,10 +4,52 @@ import { Modal, Tabs, Tab, Button } from "react-bootstrap";
 import '../../assets/css/firmstyle.css';
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import Divider from '@material-ui/core/Divider';
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }),
+);
 const FirmHeader = () => {
   let user: any = localStorage.getItem("user");
    user = JSON.parse(user);
   const [isModal, setIsModal] : any = useState(false);
+	  const classes = useStyles();
+  const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAuth(event.target.checked);
+  };
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -104,50 +146,57 @@ const FirmHeader = () => {
 
           <ul className="header-nav header-nav-profile">
             <li className="dropdown">
-              <a
-                href="javascript:void(0);"
-                className="dropdown-toggle ink-reaction"
-                data-toggle="dropdown"
+              <div
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
               >
                 <img
                   id="_profileimg"
                   src={process.env.REACT_APP_API_URL+user.ImageUrl}
                   className="borderImgGreen"
                   title="Imap Connected."
+									style={{width:"38px"}}
                 />
-                <span className="profile-info">
-                  {user.UserFirstName} {" "} {user.UserLastName}<small className="font-13">{user.UserRole}</small>
-                </span>
-              </a>
-              <ul className="dropdown-menu">
-                <li className="dropdown-menu-list">
-                  <a href="/app/settings/profile">My profile</a>
-                </li>
-                <li className="dropdown-menu-list">
-                  <a href="/app/settings/sociallogins">Social Login</a>
-                </li>
-                <li className="dropdown-menu-list">
-                  <a href="/app/settings/imapsettings">Imap Settings</a>
-                </li>
-                <li className="dropdown-menu-list">
-                  <a href="/app/settings/notificationsettings">
+                
+              </div>
+							<Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                keepMounted
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+								transformOrigin={{ vertical: "bottom", horizontal: "center" }}
+                open={open}
+                onClose={handleClose}
+							>
+              <MenuItem onClick={handleClose} style={{width:"251px"}}>
+								<a href="/app/settings/profile" className="dropdown">
+									<span className="profile-info">
+										<Typography variant="h6" component="h6">
+											{user.UserFirstName} {" "} {user.UserLastName}
+										</Typography>
+										(<small className="font-13" style={{color: "rgb(99, 115, 129)"}}>{user.UserRole}</small>)
+									</span>
+								</a>
+							</MenuItem>
+								 <Divider />
+								 <MenuItem onClick={handleClose} style={{width:"251px"}}><a href="/app/settings/profile" className="dropdown">My profile</a></MenuItem>
+								<MenuItem onClick={handleClose}><a href="/app/settings/sociallogins">Social Login</a></MenuItem> 
+								<MenuItem onClick={handleClose}><a href="/app/settings/imapsettings">Imap Settings</a></MenuItem>
+                <MenuItem onClick={handleClose}><a href="/app/settings/notificationsettings">
                     Email Settings
-                  </a>
-                </li>
-                <li className="divider dropdown-menu-list"></li>
-
-                <li className="dropdown-menu-list">
-                  <a href="/app/projects?user=me">My Projects</a>
-                </li>
-
-                <li className="divider dropdown-menu-list"></li>
-
-                <li className="dropdown-menu-list">
-                  <a href="/" onClick={()=>logout()}>
-                    <i className="mdi mdi-fw mdi-power-off text-danger"></i> Logout
-                  </a>
-                </li>
-              </ul>
+                  </a></MenuItem> 
+								<MenuItem onClick={handleClose}><a href="/app/projects?user=me">My Projects</a></MenuItem>
+								<Divider />
+                <MenuItem onClick={handleClose}>
+									<a href="/" onClick={()=>logout()}>
+											<Button variant="outline-success"><i className="mdi mdi-fw mdi-power-off text-danger "></i> Logout</Button>
+									</a>
+								</MenuItem>
+								
+              </Menu>
             </li>
           </ul>
         </div>
