@@ -4,6 +4,7 @@ import FirmHeader from "./firmheader";
 import FirmMenu from "./firmmenu"
 import Dashboard from '../pages/dashboard';
 import People from '../pages/people/people';
+import PersonDetails from '../pages/people/persondetails';
 import Document from '../pages/document/document';
 const FirmLayout = () => {
     return (
@@ -17,7 +18,8 @@ const FirmLayout = () => {
                             <Route exact path="/">
                                 <Redirect to="/dashboard" />
                             </Route>
-                            <Route path="/dashboard" component={Dashboard} /> 
+                            <Route path="/dashboard" component={Dashboard} />  
+														<Route path="/persondetails" component={PersonDetails} /> 
                             <Route path="/people" component={People} />  
                             <Route path="/document" component={Document} />   
                         </Switch>
